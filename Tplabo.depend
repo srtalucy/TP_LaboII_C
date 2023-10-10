@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1696816705 source:c:\users\54113\desktop\tplabo\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
