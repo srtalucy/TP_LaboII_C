@@ -166,12 +166,12 @@ pA=fopen("propiedades.dat","rb");
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
     //printf("Fecha de\t\t\t\t\t\t\t\tSuperficie\tSuperficie\t\t\t\t\t\t\t\t\t\tFecha de");
-    printf("|ID  |ingreso     |Zona      |Ciudad    |Dormitorios |Baños |total    |cubierta |Precio      |Moneda  |Tipo  |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
-        printf("|%-4d|%d/%d/%-7d|%-10s|%-10s|%-12d|%-6d|%-9.2f|%-9.2f|%-12.2f|%-8s|%-6s|%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.2f |%-9.2f |%-12.2f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         i++;
         printf("\n");
    }
