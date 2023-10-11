@@ -23,11 +23,11 @@ typedef struct unidades {
     int activo;
 };
 
-// ir a una línea determinada
+// ir a una lÃ­nea determinada
 void goy(int y) {
 	// Obtener handle de la consola
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	// Establecer posición del nuevo cursor
+	// Establecer posiciÃ³n del nuevo cursor
 	COORD pos;
 	pos.X = 0;
 	pos.Y = y;
@@ -43,7 +43,7 @@ void goy(int y) {
 void crearStock(FILE * pA){
     pA = fopen("propiedades.dat", "r");
      if (pA == NULL) {
-        // El archivo no existe, así que lo creamos
+        // El archivo no existe, asÃ­ que lo creamos
         pA = fopen("propiedades.dat", "w");
         } else{
         // El archivo existe, lo cerramos
@@ -76,7 +76,7 @@ struct unidades prop;
     fflush(stdin);
     if (prop.id<0){printf("\nNumero fuera de rango\n");}
     }while(prop.id<0);
-    //ingresamos mes primero para que le día no se pase de rango luego
+    //ingresamos mes primero para que le dÃ­a no se pase de rango luego
     do{
     printf("Ingrese el mes: ");
     scanf("%d",&prop.mes);
@@ -99,7 +99,7 @@ struct unidades prop;
     printf("\nIngrese el a%co: ",164);
     scanf("%d",&prop.anio);
     fflush(stdin);
-    if (prop.anio != anioactual){printf("\nAño fuera de rango, ingrese nuevamente");}
+    if (prop.anio != anioactual){printf("\nAÃ±o fuera de rango, ingrese nuevamente");}
     }while(prop.anio != anioactual);
 
     printf("Ingrese la Zona del articulo: ");
@@ -154,6 +154,13 @@ struct unidades prop;
 
  fclose(pA);
 }
+//FunciÃ³n que limpia la tecla enter antes de volver al menÃº
+void limpiarTeclado() {
+    while (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+        // Descartar pulsaciones de tecla de Enter
+    }
+}
+
 
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
@@ -165,8 +172,7 @@ int i=0, cantprod;
 pA=fopen("propiedades.dat","rb");
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-    //printf("Fecha de\t\t\t\t\t\t\t\tSuperficie\tSuperficie\t\t\t\t\t\t\t\t\t\tFecha de");
-    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |BaÃ±os  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
@@ -184,7 +190,7 @@ fclose(pA);
 
 int main() {
     int MenuInicio =1;      // Establece el primer numero del menu
-    int MenuFin =5;	        // Establece último numero del menu
+    int MenuFin =5;	        // Establece Ãºltimo numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
 
@@ -215,7 +221,7 @@ int main() {
 			Menu = Menu == MenuInicio ? MenuFin : --Menu;
 			// Eliminar la flecha actual
 			printf("\r     ");
-			// Ir a la linea del próximo menu
+			// Ir a la linea del prÃ³ximo menu
 			goy(LineaDeInicio + Menu-1);
 			// Poner la nueva flecha
 			printf("---->");
@@ -255,6 +261,7 @@ int main() {
         }
     printf("\n");
 	system("pause");
+	limpiarTeclado();
 	}while(1);
 
 //Fin de main
