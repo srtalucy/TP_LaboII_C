@@ -185,6 +185,62 @@ printf("\n\n");
 fclose(pA);
 }
 
+// 4- baja logica de una propiedad
+void bajaLogica(FILE * pA){
+struct unidades prod;
+int art;//=leerArt();
+char opcion;
+printf("ingrese el ID");
+scanf("%d", &art );
+pA=fopen("propiedades.dat","r+b");
+
+    fseek(pA,0,SEEK_SET);
+    fseek(pA,(art-1)*sizeof(struct unidades ),SEEK_SET);
+    fread(&prod,sizeof(struct unidades ),1,pA);
+    if( prod.activo == 0){
+     printf("La propiedad ya estaba dada de baja \n");
+     fclose(pA);
+     return;
+    }
+    printf("Usted dar%c de baja a:\n", 160);
+    printf("Zona: %s, Ciudad: %s, Dormitorios: %d, banios: %d, SuperficieT: %.2f,SuperficieC: %.2f, Precio: %.2f, Moneda: %s, Tipo: %s, Operacion: %s \n",prod.zona,prod.ciudad, prod.dormitorios, prod.banios, prod.superficieT, prod.superficieC, prod.precio, prod.moneda,prod.tipo,prod.operacion);
+    printf("Esta seguro de que quiere darla de baja? Ingrese 'S' para si o 'N' para no ");
+    opcion = getchar();
+    opcion = toupper(opcion);
+    while (opcion != 'S' && opcion != 'N'){
+        printf("ingrese una opcion valida \n");
+        opcion = getchar();
+        opcion = toupper(opcion);
+    }
+    if(opcion == 'N'){
+       return;}
+    else{
+    prod.activo = 0;
+    fseek(pA,-sizeof(struct unidades),SEEK_CUR);
+    fwrite(&prod,sizeof(struct unidades),1,pA);
+printf("\n***--El producto %d se dio de baja correctamente--***\n", art);}
+printf("\n\n\n");
+printf("Asi quedo la lista actualizada \n");
+struct unidades prop;
+int i=0, cantprod;
+    fseek(pA,0,SEEK_END);
+    cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
+    printf("|ID  |ingreso     |Zona      |Ciudad    |Dormitorios |Baños |total    |cubierta |Precio      |Moneda  |Tipo  |Operacion |salida |Activo\n");
+    fseek(pA,0,SEEK_SET);
+    while( i < cantprod ){
+        fseek(pA,i*sizeof(struct unidades),SEEK_SET);
+        fread(&prop,sizeof(struct unidades),1,pA);
+        if(prop.activo == 1 ){
+        printf("|%-4d|%d/%d/%-7d|%-10s|%-10s|%-12d|%-6d|%-9.2f|%-9.2f|%-12.2f|%-8s|%-6s|%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        }
+
+        i++;
+
+        printf("\n");
+   }
+printf("\n\n");
+fclose(pA);
+}
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
 
@@ -205,7 +261,7 @@ int main() {
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
-	printf("\t4. Descripcion de la opcion 4\n");
+	printf("\t4. Baja logica de una propiedad\n");
 	printf("\t5. Salir\n");
 
 	Menu = 1;
@@ -252,7 +308,7 @@ int main() {
                break;
         case 3:Lista(pArchivo);
                break;
-        case 4:printf("Cuatro");
+        case 4:bajaLogica(pArchivo);
                break;
         case 5:printf("Cinco");
                break;
