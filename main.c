@@ -3,11 +3,6 @@
 #include <windows.h>
 #define anioactual 2023
 
-/*
-typedef struct fecha {
-    int dia, mes, anio;};
-    */
-
 typedef struct unidades {
     int id,dia,mes,anio;
     char zona[20];
@@ -36,6 +31,10 @@ void goy(int y) {
 }
 
 //------------------------------------------------------------------------------------------------------------//
+void limpiarTeclado(){
+    while (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+    // Descartar pulsaciones de tecla de Enter
+}}
 //------------------------------------------------------------------------------------------------------------//
 
 // 1-Creamos un if que si el archivo existe, no lo crea nuevamente borrando lo ya hecho
@@ -340,15 +339,15 @@ return numero;
 
 int ingresoProp(){
 int i;
-printf("1.- ID\n");
-printf("2.- Zona\n");
-printf("3.- Ciudad\n");
-printf("4.- Dormitorios\n");
-printf("5.- Baños\n");
-printf("6.- total de la Superficie\n");
-printf("7.- cubierta de la Superficie\n");
-printf("8.- Precio\n");
-printf("9.- Moneda\n");
+printf("1.-  ID\n");
+printf("2.-  Zona\n");
+printf("3.-  Ciudad\n");
+printf("4.-  Dormitorios\n");
+printf("5.-  Baños\n");
+printf("6.-  total de la Superficie\n");
+printf("7.-  cubierta de la Superficie\n");
+printf("8.-  Precio\n");
+printf("9.-  Moneda\n");
 printf("10.- Tipo\n");
 printf("11.- Operacion\n");
 printf("Ingrese el tipo de propiedad a buscar: \n");
@@ -362,10 +361,7 @@ return i;
 }
 
 //------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------------//
-
 // 3.3-Muestra la lista de las propiedades del archivo pArchivo (Filtrada por la propiedad pedida)//
-
 void propiedadPedida(FILE *pA){
 struct unidades prop;
 pA=fopen("propiedades.dat","rb");
@@ -498,17 +494,13 @@ switch (seleccion) {
         }
         break;
    }
-
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 fclose(pA);
 }
 
 //------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------------//
-
 // 3.4-Muestra la lista de las propiedades del archivo pArchivo (Segun un rango de tiempo)//
-
 void rangoTiempo(FILE *pA){
 struct unidades prop;
 pA=fopen("propiedades.dat","rb");
@@ -537,42 +529,61 @@ fclose(pA);
 }
 
 //------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------------//
-
 //3- Menu de filtros para mostrar la lista de las propiedades del archivo pArchivo//
-
-void menulistas(FILE *pA){
-    int i;
+void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
     pA=fopen("propiedades.dat","rb");
-	printf("1.- Mostrar lista completa (Incluyendo Activos e Inactivos)\n");
-	printf("2.- Mostrar solo los Activos\n");
-	printf("3.- Mostrar por un Tipo especifico\n");
-	printf("4.- Mostrar por un rango de tiempo\n");
-	scanf("%d",&i);
-		switch (i) {
+    MenuInicio =1;
+    MenuFin =4;
+    LineaDeInicio =10;
+	int Menu;
+	goy(8);
+	printf("///////////////////////////////////////////////////////////////////////////////////");
+	goy(LineaDeInicio);
+	printf("\t1.- Mostrar lista completa (Incluyendo Activos e Inactivos)\n");
+	printf("\t2.- Mostrar solo los Activos\n");
+	printf("\t3.- Mostrar por un Tipo especifico\n");
+	printf("\t4.- Mostrar por un rango de tiempo\n");
+    fflush(stdin);
+	Menu = 1;
+	goy(LineaDeInicio);
+	printf("---->");
+    while(1) {
+		Sleep(100);
+		if (GetAsyncKeyState(VK_UP)) {
+			Menu = Menu == MenuInicio ? MenuFin : --Menu;
+			printf("\r     ");
+			goy(LineaDeInicio + Menu-1);
+			printf("---->");
+		} else if (GetAsyncKeyState(VK_DOWN)) {
+			Menu = Menu == MenuFin ? MenuInicio: ++Menu;
+			printf("\r     ");
+			goy(LineaDeInicio + Menu-1);
+			printf("---->");
+		} else if (GetAsyncKeyState(VK_RETURN)){break;}}
+
+        goy(17);
+		switch (Menu) {
         case 1:
-            printf("Has seleccionado la opcion 1\n");
+          //  printf("Has seleccionado la opcion 1\n");
             Lista(pA);
             break;
         case 2:
-            printf("Has seleccionado la opcion 2\n");
+          //  printf("Has seleccionado la opcion 2\n");
             soloActivos(pA);
             break;
         case 3:
-            printf("Has seleccionado la opcion 3\n");
+           // printf("Has seleccionado la opcion 3\n");
             propiedadPedida(pA);
             break;
         case 4:
-            printf("Has seleccionado la opcion 4\n");
+            //printf("Has seleccionado la opcion 4\n");
             rangoTiempo(pA);
             break;
-        default:
-            printf("El valor esta fuera de rango");
         }
+        fflush(stdin);
+        limpiarTeclado();
 }
 //------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------------//
-
 // 4- baja logica de una propiedad
 void bajaLogica(FILE * pA){
 struct unidades prod;
@@ -621,9 +632,7 @@ int i=0, cantprod;
         if(prop.activo == 1 ){
         printf("|%-4d|%d/%d/%-7d|%-10s|%-10s|%-12d|%-6d|%-9.2f|%-9.2f|%-12.2f|%-8s|%-6s|%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         }
-
         i++;
-
         printf("\n");
    }
 printf("\n\n");
@@ -634,8 +643,6 @@ int main() {
     int MenuFin =5;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
-
-
     do{
     system("cls"); //limpiamos pantalla
 	int Menu; //Variable que sirve para saber en que numero de menu estamos
@@ -647,7 +654,7 @@ int main() {
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
 	printf("\t4. Baja logica de una propiedad\n");
 	printf("\t5. Salir\n");
-    fflush(stdin);
+    	fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
 	printf("---->");
@@ -674,17 +681,10 @@ int main() {
 			break;
 		}
 	}
-	//Si elijo (5):salir, finalizo el programa.
-    if (Menu == 5){
-            goy(10);
-            printf("Programa terminado\n\n");
-            system("pause");
-            return 0;
-    }
+
 	// Me muevo hacia un espacio donde pueda imprimir los demas datos de la opcion seleccionada
 	goy(10);
-	printf("Has seleccionado la opcion %d\n\n", Menu);
-
+	    
 	switch (Menu) {
         case 1:crearStock(pArchivo);
                 //fflush(stdin);
@@ -692,22 +692,20 @@ int main() {
         case 2:productoNuevo(pArchivo);
                 //fflush(stdin);
                break;
-        case 3:menulistas(pArchivo);
+        case 3:menulistas(pArchivo,MenuInicio,MenuFin,LineaDeInicio);
                // fflush(stdin);
                break;
         case 4:bajaLogica(pArchivo);
                // fflush(stdin);
                break;
-        case 5:printf("Cinco");
+        case 5:return 0;
                break;
-        default:
-            printf("El valor esta fuera de rango");
         }
-    printf("\n");
-    fflush(stdin);
+	printf("\n");
+	fflush(stdin);
+	limpiarTeclado();
 	system("pause");
 	}while(1);
 
 //Fin de main
-
 }
