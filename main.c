@@ -178,6 +178,32 @@ pA=fopen("propiedades.dat","rb");
 printf("\n\n");
 fclose(pA);
 }
+//7. Busqueda secuencial//
+int leerProp(){
+int prop;
+printf("Ingrese c%cdigo num%crico del art%cculo: \n",162,130,161);
+scanf("%d",&prop);
+fflush(stdin);
+return prop;
+}
+void buscarUnidad(FILE *pA){
+struct unidades unid;
+int prop = leerProp();
+pA=fopen("propiedades.dat","rb");
+  printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+    while(!feof(pA)){
+    // las funciones en c devuelven un valor entero lo que permite usar ese valor para las operaciones
+     if (fread(&unid, sizeof(struct unidades),1,pA)==1){
+         if(prop == unid.id)
+
+             printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.2f |%-9.2f |%-12.2f |%-8s |%-6s |%-10s|       |%-1d",unid.id,unid.dia,unid.mes,unid.anio,unid.zona,unid.ciudad,unid.dormitorios,unid.banios,unid.superficieT,unid.superficieC,unid.precio,unid.moneda,unid.tipo,unid.operacion,unid.activo);
+
+      }
+
+
+    }
+fclose(pA);
+}
 
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
@@ -199,7 +225,7 @@ int main() {
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
-	printf("\t4. Descripcion de la opcion 4\n");
+	printf("\t4. Buscar propiedad por ID\n");
 	printf("\t5. Salir\n");
 
 	Menu = 1;
@@ -246,7 +272,7 @@ int main() {
                break;
         case 3:Lista(pArchivo);
                break;
-        case 4:printf("Cuatro");
+        case 4:buscarUnidad(pArchivo);
                break;
         case 5:printf("Cinco");
                break;
