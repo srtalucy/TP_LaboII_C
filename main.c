@@ -71,9 +71,9 @@ struct unidades prop;
 int leido;
 //struct fecha fechaHoy;
     pA=fopen("propiedades.dat","r+b");
+    while (getchar() != '\n'); //eliminamos todo lo que haya en el buffer para que no haga ni salto de linea por pulsar enter
     //chequeamos que se ingrese correctamente el ID
     do{
-    printf("");
     printf("Ingrese el ID del articulo: ");
     leido = scanf("%d",&prop.id);
     fflush(stdin);
