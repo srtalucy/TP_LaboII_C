@@ -756,9 +756,9 @@ int main() {
 <<<<<<< HEAD
 	printf("\t4. Buscar propiedad por ID\n");
 =======
-	printf("\t4. Baja logica de una propiedad\n");
+	printf("\t5. Baja logica de una propiedad\n");
 >>>>>>> 863ca46df473b9a8d9bc2cf201a436802e6dcc59
-	printf("\t5. Salir\n");
+	printf("\t6. Salir\n");
     fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
@@ -810,11 +810,11 @@ int main() {
 <<<<<<< HEAD
         case 4:buscarUnidad(pArchivo);
 =======
-        case 4:bajaLogica(pArchivo);
+        case 5:bajaLogica(pArchivo);
                // fflush(stdin);
 >>>>>>> 863ca46df473b9a8d9bc2cf201a436802e6dcc59
                break;
-        case 5:printf("Cinco");
+        case 6:printf("Seis");
                break;
         default:
             printf("El valor esta fuera de rango");
