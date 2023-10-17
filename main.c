@@ -753,11 +753,11 @@ int main() {
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
-<<<<<<< HEAD
+
 	printf("\t4. Buscar propiedad por ID\n");
-=======
+
 	printf("\t5. Baja logica de una propiedad\n");
->>>>>>> 863ca46df473b9a8d9bc2cf201a436802e6dcc59
+
 	printf("\t6. Salir\n");
     fflush(stdin);
 	Menu = 1;
@@ -807,12 +807,12 @@ int main() {
         case 3:menulistas(pArchivo);
                // fflush(stdin);
                break;
-<<<<<<< HEAD
+
         case 4:buscarUnidad(pArchivo);
-=======
+
         case 5:bajaLogica(pArchivo);
                // fflush(stdin);
->>>>>>> 863ca46df473b9a8d9bc2cf201a436802e6dcc59
+
                break;
         case 6:printf("Seis");
                break;
