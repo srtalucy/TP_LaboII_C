@@ -1,6 +1,6 @@
 # TP_LaboII_C
 18/10 - Agrege la sub lista de los tipo zona,moneda,operativo,tipo de propiedad, a la hora de ingresar un nuevo inmueble, 
-ademas mejorar la precision de las busquedas segun un margen de tiempo, busqueda por algun tipo de los mencionados (Aun sin corregir) 
+ademas mejorada la precision de las busquedas segun un margen de tiempo, busqueda por algun tipo de los mencionados (Aun sin corregir) 
 
 
 Problemas a solucionar
