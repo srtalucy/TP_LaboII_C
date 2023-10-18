@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <ctype.h>
 #define anioactual 2023
 
 /*
@@ -136,15 +137,41 @@ int leido;
     if (prop.anio != anioactual){printf("\nAño fuera de rango, ingrese nuevamente");}
     }while(prop.anio != anioactual);
 
-    printf("Ingrese la Zona del articulo: ");
-    scanf("%s",&prop.zona);
+    printf("Ingrese la Zona del articulo: \n");
+    printf("1- Capital Federal \n");
+    printf("2- Bs.As. G.B.A. Zona Sur \n");
+    printf("3- Bs.As. G.B.A. Zona Norte \n");
+    printf("4- Bs.As. G.B.A. Zona Este \n");
+    printf("5- Bs.As. G.B.A. Zona Oeste \n");
+    scanf("%d",&leido);
     fflush(stdin);
-    while(prop.zona==NULL){
-    printf("Valor invalido\n");
-    printf("Ingrese la Zona del articulo: ");
-    scanf("%s",&prop.zona);
+    if (leido<=0 || leido>5 ){
+        while (leido<=0 || leido>5 ){
+        printf("Ingreso un valor fuera del rango\n");
+        printf("Ingrese la Zona del articulo: \n");
+        scanf("%d",&leido);
+        fflush(stdin);
+        }
+    }
+    switch(leido){
+        case 1:
+        strcpy(prop.zona,"Capital Federal");
+        break;
+    case 2:
+        strcpy(prop.zona,"Bs.As.Zona Sur");
+        break;
+    case 3:
+        strcpy(prop.zona,"Bs.As.Zona Norte");
+        break;
+    case 4:
+        strcpy(prop.zona,"Bs.As.Zona Este");
+        break;
+    case 5:
+        strcpy(prop.zona,"Bs.As.Zona Oeste");
+        break;
     }
 
+//---------------------------------------------------------------------------------------------//
     printf("Ingrese la Ciudad del articulo: ");
     scanf("%s",&prop.ciudad);
     fflush(stdin);
@@ -153,6 +180,7 @@ int leido;
     printf("Ingrese la Ciudad del articulo: ");
     scanf("%s",&prop.ciudad);
     }
+//---------------------------------------------------------------------------------------------//
 
     printf("Ingrese la cantidad de Dormitorios del articulo: ");
     leido = scanf("%d",&prop.dormitorios);
@@ -173,7 +201,7 @@ int leido;
     scanf("%d",&prop.dormitorios);
     }
 
-    printf("Ingrese la cantidad de banos del articulo: ");
+    printf("Ingrese la cantidad de ba%cos del articulo: ",164);
     leido = scanf("%d",&prop.banios);
     fflush(stdin);
       if (leido == 1){
@@ -181,14 +209,14 @@ int leido;
     else{
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese la cantidad de banos del articulo: ");
+            printf("Ingrese la cantidad de ba%cos del articulo: ",164);
             leido = scanf("%d",&prop.banios);
             fflush(stdin);
         }
     }
     while(prop.banios<0){
     printf("Valor invalido\n");
-    printf("Ingrese la cantidad de banos del articulo: ");
+    printf("Ingrese la cantidad de ba%cos del articulo: ",164);
     scanf("%d",&prop.banios);
     }
 
@@ -249,31 +277,81 @@ int leido;
     scanf("%f",&prop.precio);
     }
 
-    printf("Ingrese el tipo de moneda del articulo: ");
-    scanf("%s",&prop.moneda);
+    printf("Ingrese el tipo de moneda del articulo: \n");
+    printf("1- USD \n");
+    printf("2- PESOS \n");
+    scanf("%d",&leido);
     fflush(stdin);
-    while(prop.moneda==NULL){
-    printf("Valor invalido\n");
-    printf("Ingrese el tipo de moneda del articulo: ");
-    scanf("%s",&prop.moneda);
+    if (leido<=0 || leido>2 ){
+        while (leido<=0 || leido>2 ){
+        printf("Ingreso un valor fuera del rango\n");
+        printf("Ingrese el tipo de moneda del articulo: ");
+        scanf("%d",&leido);
+        fflush(stdin);
+        }
+    }
+    switch(leido){
+        case 1:
+        strcpy(prop.moneda,"USD");
+        break;
+    case 2:
+        strcpy(prop.moneda,"PESOS");
+        break;
     }
 
-    printf("Ingrese el tipo de la propiedad del articulo: ");
-    scanf("%s",&prop.tipo);
+    printf("Ingrese el tipo de la propiedad del articulo: \n");
+    printf("1- Departamento \n");
+    printf("2- PH \n");
+    printf("3- Casa \n");
+    scanf("%d",&leido);
     fflush(stdin);
-    while(prop.tipo==NULL){
-    printf("Valor invalido\n");
-    printf("Ingrese el tipo de la propiedad del articulo: ");
-    scanf("%s",&prop.tipo);
+    if (leido<=0 || leido>3 ){
+        while (leido<=0 || leido>3 ) {
+        printf("Ingreso un valor fuera del rango\n");
+        printf("Ingrese el tipo de la propiedad del articulo: ");
+        scanf("%d",&leido);
+        fflush(stdin);
+        }
+
+    }
+    switch(leido){
+        case 1:
+        strcpy(prop.tipo,"Departamento");
+        break;
+    case 2:
+        strcpy(prop.tipo,"PH");
+        break;
+    case 3:
+        strcpy(prop.tipo,"Casa");
+        break;
     }
 
-    printf("Ingrese el tipo de Operacion del articulo: ");
-    scanf("%s",&prop.operacion);
+
+    printf("Ingrese el tipo de Operacion del articulo: \n");
+    printf("1- Venta \n");
+    printf("2- Alquiler \n");
+    printf("3- Alquiler Temporal\n");
+    scanf("%d",&leido);
     fflush(stdin);
-    while(prop.operacion==NULL){
-    printf("Valor invalido\n");
-    printf("Ingrese el tipo de Operacion del articulo: ");
-    scanf("%s",&prop.operacion);
+    if (leido<=0 || leido>3 ){
+        while (leido<=0 || leido>3 ) {
+        printf("Ingreso un valor fuera del rango\n");
+        printf("Ingrese el tipo de Operacion del articulo: ");
+        scanf("%d",&leido);
+        fflush(stdin);
+        }
+
+    }
+    switch(leido){
+        case 1:
+        strcpy(prop.operacion,"Venta");
+        break;
+    case 2:
+        strcpy(prop.operacion,"Alquiler");
+        break;
+    case 3:
+        strcpy(prop.operacion,"Alquiler Temporal");
+        break;
     }
 
     prop.activo=1;
@@ -307,12 +385,12 @@ pA=fopen("propiedades.dat","rb");
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         i++;
         printf("\n");
    }
@@ -334,11 +412,11 @@ pA=fopen("propiedades.dat","rb");
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
     while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.activo==1){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
    }
@@ -346,6 +424,78 @@ pA=fopen("propiedades.dat","rb");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 fclose(pA);
+}
+
+//------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------//
+
+int Operativo(){
+int numero;
+printf("Operativo:\n");
+printf("1- Venta \n");
+printf("2- Alquiler \n");
+printf("3- Alquiler Temporal\n");
+scanf("%d",numero);
+if (numero<=0 || numero>3 ){
+while (numero<=0 || numero>3 ){
+printf("Ingreso un valor fuera del rango\n");
+printf("Ingrese la Zona del articulo: \n");
+scanf("%d",&numero);
+fflush(stdin);
+}}
+return numero;
+}
+
+int Tipo(){
+int numero;
+printf("Tipo:\n");
+printf("1- Departamento \n");
+printf("2- PH \n");
+printf("3- Casa \n");
+scanf("%d",numero);
+if (numero<=0 || numero>3 ){
+while (numero<=0 || numero>3 ){
+printf("Ingreso un valor fuera del rango\n");
+printf("Ingrese la Zona del articulo: \n");
+scanf("%d",&numero);
+fflush(stdin);
+}}
+return numero;
+}
+
+int Moneda(){
+int numero;
+printf("Moneda:\n");
+printf("1- USD \n");
+printf("2- PESOS \n");
+scanf("%d",numero);
+if (numero<=0 || numero>2 ){
+while (numero<=0 || numero>2 ){
+printf("Ingreso un valor fuera del rango\n");
+printf("Ingrese la Zona del articulo: \n");
+scanf("%d",&numero);
+fflush(stdin);
+}}
+return numero;
+}
+
+int Zona(){
+int numero;
+printf("Zona:\n");
+printf("1- Capital Federal \n");
+printf("2- Bs.As. G.B.A. Zona Sur \n");
+printf("3- Bs.As. G.B.A. Zona Norte \n");
+printf("4- Bs.As. G.B.A. Zona Este \n");
+printf("5- Bs.As. G.B.A. Zona Oeste \n");
+scanf("%d",numero);
+if (numero<=0 || numero>5 ){
+while (numero<=0 || numero>5 ){
+printf("Ingreso un valor fuera del rango\n");
+printf("Ingrese la Zona del articulo: \n");
+scanf("%d",&numero);
+fflush(stdin);
+}}
+return numero;
 }
 
 //------------------------------------------------------------------------------------------------------------//
@@ -372,28 +522,72 @@ return variable;
 }
 
 //Funcion para solo ingresar los valores tipo Char//
-char busquedaChar(int i){
-char letras;
+char* busquedaChar(int i){
+int seleccion;
+char *letras;
 switch (i) {
     case 2:
-        printf("Zona:");
-        scanf(" %s", &letras);
+        seleccion=Zona();
+        switch (seleccion){
+        case 1:
+        letras="Capital Federal";
+        break;
+        case 2:
+        letras="Bs.As.Zona Sur";
+        break;
+        case 3:
+        letras="Bs.As.Zona Norte";
+        break;
+        case 4:
+        letras="Bs.As.Zona Este";
+        break;
+        case 5:
+        letras="Bs.As.Zona Oeste";
+        break;
+        }
         break;
     case 3:
         printf("Ciudad:");
         scanf(" %s", &letras);
         break;
     case 9:
-        printf("Tipo de Moneda:");
-        scanf(" %s", &letras);
+        seleccion=Moneda();
+        switch (seleccion){
+        case 1:
+        letras="USD";
+        break;
+        case 2:
+        letras="PESOS";
+        break;
+        }
         break;
     case 10:
-        printf("Tipo de la propiedad:");
-        scanf(" %s", &letras);
+        seleccion=Tipo();
+        switch (seleccion){
+        case 1:
+        letras="Departamento";
+        break;
+        case 2:
+        letras="PH";
+        break;
+        case 3:
+        letras="Casa";
+        break;
+        }
         break;
     case 11:
-        printf("Tipo de Operacion:");
-        scanf(" %s", &letras);
+        seleccion=Tipo();
+        switch (seleccion){
+        case 1:
+        letras="Venta";
+        break;
+        case 2:
+        letras="Alquiler";
+        break;
+        case 3:
+        letras="Alquiler Temporal";
+        break;
+        }
         break;
     }
 return letras;
@@ -412,7 +606,7 @@ switch (i) {
         scanf("%d",&numero);
         break;
     case 5:
-        printf("Banios:");
+        printf("Ba%cos:",164);
         scanf("%d",&numero);
         break;
     }
@@ -428,14 +622,14 @@ printf("1.- ID\n");
 printf("2.- Zona\n");
 printf("3.- Ciudad\n");
 printf("4.- Dormitorios\n");
-printf("5.- Baños\n");
+printf("5.- Ba%cos\n",164);
 printf("6.- total de la Superficie\n");
 printf("7.- cubierta de la Superficie\n");
 printf("8.- Precio\n");
 printf("9.- Moneda\n");
 printf("10.- Tipo\n");
 printf("11.- Operacion\n");
-printf("Ingrese el tipo de propiedad a buscar: \n");
+printf("Ingrese el tipo de propiedad a buscar: ");
 scanf("%d",&i);
 while(i<=0 && i>11){
 printf("Esa no es no opcion, ingrese de nuevo\n");
@@ -456,26 +650,25 @@ pA=fopen("propiedades.dat","rb");
 int seleccion=ingresoProp(); //Hago un pedido para saber cual tipo de variable compararemos
 int identificadorInt; //Creo una variable especifica para los valores tipo int
 float identificadorFloat; //Creo una variable especifica para los valores tipo float
-char identificadorChar; //Creo una variable especifica para los valores tipo char
+char *identificadorChar; //Creo una variable especifica para los valores tipo char
 
  if (seleccion ==1 || seleccion ==4 || seleccion ==5){
 identificadorInt=busquedaInt(seleccion); //Si quiere un Int, serian la opcion 1,4,5
 } else if (seleccion ==6 || seleccion ==7 || seleccion ==8){
 identificadorFloat=busquedaFloat(seleccion); //Si quiere un float, serian la opcion 6,7,8
-} else if (seleccion ==2 || seleccion ==3 || seleccion ==9 || seleccion ==10 || seleccion ==11){
+} else {
 identificadorChar=busquedaChar(seleccion); //Si quiere un char, serian la opcion 2,3,9,10,11
 }
-
 printf("\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
 switch (seleccion) {
     case 1:
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.id==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -485,7 +678,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.zona,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -495,7 +688,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.ciudad,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -505,7 +698,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.dormitorios==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -515,7 +708,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.banios==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -525,7 +718,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.superficieT==identificadorFloat){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -545,7 +738,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.precio==identificadorFloat){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -555,7 +748,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.tipo,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -565,7 +758,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.moneda,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -575,7 +768,7 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.operacion,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -606,11 +799,14 @@ scanf("%d",&anio);
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso     |Zona       |Ciudad     |Dormitorios  |Baños  |total     |cubierta  |Precio       |Moneda   |Tipo   |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso      |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
     while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.dia<=dia && prop.mes <= mes && prop.anio <= anio && prop.activo==1){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");}
+        if(prop.dia>dia && prop.mes < mes && prop.anio <= anio && prop.activo==1){
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
    }
@@ -697,13 +893,13 @@ struct unidades prop;
 int i=0, cantprod;
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-    printf("|ID  |ingreso     |Zona      |Ciudad    |Dormitorios |Baños |total    |cubierta |Precio      |Moneda  |Tipo  |Operacion |salida |Activo\n");
+    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
         if(prop.activo == 1 ){
-        printf("|%-4d|%d/%d/%-7d|%-10s|%-10s|%-12d|%-6d|%-9.2f|%-9.2f|%-12.2f|%-8s|%-6s|%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         }
 
         i++;
@@ -715,7 +911,7 @@ fclose(pA);
 }
 int main() {
     int MenuInicio =1;      // Establece el primer numero del menu
-    int MenuFin =5;	        // Establece último numero del menu
+    int MenuFin =6;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
 
