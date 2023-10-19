@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1697553386 source:c:\users\54113\desktop\tplabo\main.c
+1697553488 source:c:\users\54113\desktop\tplabo\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
