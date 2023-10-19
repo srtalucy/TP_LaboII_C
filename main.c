@@ -8,7 +8,7 @@
 typedef struct fecha {
     int dia, mes, anio;};a
     */
-
+/*Se define un struct para las propiedades*/
 typedef struct unidades {
     int id,dia,mes,anio;
     char zona[20];
@@ -24,7 +24,7 @@ typedef struct unidades {
     int activo;
 };
 
-// ir a una línea determinada
+// ir a una línea determinada con las flechas del teclado
 void goy(int y) {
 	// Obtener handle de la consola
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -80,6 +80,7 @@ int leido;
     fflush(stdin);
     if (leido == 1){
     }
+    //Si no se ingresa un valor correcto se pide nuevamente
     else{
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
@@ -88,7 +89,7 @@ int leido;
             fflush(stdin);
         }
     }
-
+    //Se valida que no sea un numero negativo
     if (prop.id<0){printf("\nNumero fuera de rango\n");}
     }while(prop.id<0);
     //ingresamos mes primero para que le día no se pase de rango luego
@@ -98,6 +99,7 @@ int leido;
     fflush(stdin);
     if (leido == 1){
     }
+    //Se valida que mes, dia y año sean valores numéricos y no esten fuera de rango
     else{
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
@@ -106,6 +108,7 @@ int leido;
             fflush(stdin);
         }
     }
+
     if(prop.mes <= 0 || prop.mes > 12){printf("Fuera de rango, ingrese nuevamente\n");}
     }while(prop.mes <= 0 || prop.mes > 12);
 
@@ -125,7 +128,7 @@ int leido;
             fflush(stdin);
         }
     }
-    //Lo mismo, comparo para no ingresar numeros pasados de rango
+
     if (prop.dia<0 || prop.dia>veodia) {
             printf("Dia fuera de rango\n");    }
     }while(prop.dia>veodia || prop.dia < 0);
@@ -137,6 +140,9 @@ int leido;
     if (prop.anio != anioactual){printf("\nAño fuera de rango, ingrese nuevamente");}
     }while(prop.anio != anioactual);
 
+    //Se pide el ingreso de datos para una nueva propiedad
+
+    //-----------------------------Zona------------------------------------------------//
     printf("Ingrese la Zona del articulo: \n");
     printf("1- Capital Federal \n");
     printf("2- Bs.As. G.B.A. Zona Sur \n");
@@ -145,7 +151,7 @@ int leido;
     printf("5- Bs.As. G.B.A. Zona Oeste \n");
     scanf("%d",&leido);
     fflush(stdin);
-    if (leido<=0 || leido>5 ){
+    if (leido<=0 || leido>5 ){ //Validación de Zona
         while (leido<=0 || leido>5 ){
         printf("Ingreso un valor fuera del rango\n");
         printf("Ingrese la Zona del articulo: \n");
@@ -153,7 +159,7 @@ int leido;
         fflush(stdin);
         }
     }
-    switch(leido){
+    switch(leido){ //Switch para elegir la zona por opciones y minimizar el error
         case 1:
         strcpy(prop.zona,"Capital Federal");
         break;
@@ -171,16 +177,16 @@ int leido;
         break;
     }
 
-//---------------------------------------------------------------------------------------------//
+//----------------------------------------Ciudad-----------------------------------------------------//
     printf("Ingrese la Ciudad del articulo: ");
     scanf("%s",&prop.ciudad);
     fflush(stdin);
-    while(prop.ciudad==NULL){
+    while(prop.ciudad==NULL){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la Ciudad del articulo: ");
     scanf("%s",&prop.ciudad);
     }
-//---------------------------------------------------------------------------------------------//
+//---------------------------------------Cantidad de Dormitorios------------------------------------------------------//
 
     printf("Ingrese la cantidad de Dormitorios del articulo: ");
     leido = scanf("%d",&prop.dormitorios);
@@ -188,63 +194,63 @@ int leido;
      if (leido == 1){
     }
     else{
-        while(leido != 1){
+        while(leido != 1){ //Validación
             printf("Por favor ingrese un valor numerico \n");
              printf("Ingrese la cantidad de Dormitorios del articulo: ");
             leido = scanf("%d",&prop.dormitorios);
             fflush(stdin);
         }
     }
-    while(prop.dormitorios<0){
+    while(prop.dormitorios<0){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la cantidad de Dormitorios del articulo: ");
     scanf("%d",&prop.dormitorios);
     }
-
+//---------------------------Cantidad de baños-------------------------//
     printf("Ingrese la cantidad de ba%cos del articulo: ",164);
     leido = scanf("%d",&prop.banios);
     fflush(stdin);
       if (leido == 1){
     }
     else{
-        while(leido != 1){
+        while(leido != 1){ //Validación
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese la cantidad de ba%cos del articulo: ",164);
             leido = scanf("%d",&prop.banios);
             fflush(stdin);
         }
     }
-    while(prop.banios<0){
+    while(prop.banios<0){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la cantidad de ba%cos del articulo: ",164);
     scanf("%d",&prop.banios);
     }
-
+//----------------------Superficie total-----------------------------------------------//
     printf("Ingrese la superficie total del articulo: ");
     leido = scanf("%f",&prop.superficieT);
     fflush(stdin);
         if (leido == 1){
     }
     else{
-        while(leido != 1){
+        while(leido != 1){ //Validación
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese la superficie total del articulo: ");
             leido = scanf("%d",&prop.superficieT);
             fflush(stdin);
         }
-    }
+    } //Validación
     while(prop.superficieT<=0){
     printf("Valor invalido\n");
     printf("Ingrese la superficie total del articulo: ");
     scanf("%f",&prop.superficieT);
     }
-
+//--------------------------Superficie cubierta ---------------------------//
     printf("Ingrese la superficie cubierta del articulo: ");
     leido = scanf("%f",&prop.superficieC);
     fflush(stdin);
         if (leido == 1){
     }
-    else{
+    else{ //Validación
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese la superficie cubierta del articulo: ");
@@ -252,18 +258,18 @@ int leido;
             fflush(stdin);
         }
     }
-    while(prop.superficieC<=0){
+    while(prop.superficieC<=0){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la superficie cubierta del articulo: ");
     scanf("%f",&prop.superficieC);
     }
-
+//--------------------------Precio-------------------------------------------//
     printf("Ingrese el precio del articulo: ");
     leido = scanf("%f",&prop.precio);
     fflush(stdin);
         if (leido == 1){
     }
-    else{
+    else{ //Validación
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese el precios del articulo: ");
@@ -271,18 +277,18 @@ int leido;
             fflush(stdin);
         }
     }
-    while(prop.precio<=0){
+    while(prop.precio<=0){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese el precio del articulo: ");
     scanf("%f",&prop.precio);
     }
-
+//---------------------------------Tipo de moneda --------------------------//
     printf("Ingrese el tipo de moneda del articulo: \n");
     printf("1- USD \n");
     printf("2- PESOS \n");
     scanf("%d",&leido);
     fflush(stdin);
-    if (leido<=0 || leido>2 ){
+    if (leido<=0 || leido>2 ){ //Validación
         while (leido<=0 || leido>2 ){
         printf("Ingreso un valor fuera del rango\n");
         printf("Ingrese el tipo de moneda del articulo: ");
@@ -290,7 +296,7 @@ int leido;
         fflush(stdin);
         }
     }
-    switch(leido){
+    switch(leido){ //Opciones de moneda para minimizar el error
         case 1:
         strcpy(prop.moneda,"USD");
         break;
@@ -298,14 +304,14 @@ int leido;
         strcpy(prop.moneda,"PESOS");
         break;
     }
-
+//------------------------------------Tipo de propiedad ------------------------------------//
     printf("Ingrese el tipo de la propiedad del articulo: \n");
-    printf("1- Departamento \n");
+    printf("1- Departamento \n");//Opciones
     printf("2- PH \n");
     printf("3- Casa \n");
     scanf("%d",&leido);
     fflush(stdin);
-    if (leido<=0 || leido>3 ){
+    if (leido<=0 || leido>3 ){ //Validación
         while (leido<=0 || leido>3 ) {
         printf("Ingreso un valor fuera del rango\n");
         printf("Ingrese el tipo de la propiedad del articulo: ");
@@ -314,7 +320,7 @@ int leido;
         }
 
     }
-    switch(leido){
+    switch(leido){ //Switch para validar las opciones y minimizar el error
         case 1:
         strcpy(prop.tipo,"Departamento");
         break;
@@ -326,13 +332,15 @@ int leido;
         break;
     }
 
-
+//-------------------------- Tipo de operacion----------------------------------//
+    //Opciones
     printf("Ingrese el tipo de Operacion del articulo: \n");
     printf("1- Venta \n");
     printf("2- Alquiler \n");
     printf("3- Alquiler Temporal\n");
     scanf("%d",&leido);
     fflush(stdin);
+    //Validación
     if (leido<=0 || leido>3 ){
         while (leido<=0 || leido>3 ) {
         printf("Ingreso un valor fuera del rango\n");
@@ -342,6 +350,7 @@ int leido;
         }
 
     }
+    //Switch para validar opciones y minimizar el error
     switch(leido){
         case 1:
         strcpy(prop.operacion,"Venta");
@@ -353,7 +362,7 @@ int leido;
         strcpy(prop.operacion,"Alquiler Temporal");
         break;
     }
-
+    //Se da de alta la propiedad
     prop.activo=1;
 
     if (prop.id == 1){
@@ -428,7 +437,8 @@ fclose(pA);
 
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
-
+//Funciones que usamos para hacer una busqueda dependiendo de la opcion que se elija.
+//Por Operativo
 int Operativo(){
 int numero;
 printf("Operativo:\n");
@@ -445,7 +455,7 @@ fflush(stdin);
 }}
 return numero;
 }
-
+//Por tipo
 int Tipo(){
 int numero;
 printf("Tipo:\n");
@@ -462,7 +472,7 @@ fflush(stdin);
 }}
 return numero;
 }
-
+//Por Moneda
 int Moneda(){
 int numero;
 printf("Moneda:\n");
@@ -478,7 +488,7 @@ fflush(stdin);
 }}
 return numero;
 }
-
+//Por zona
 int Zona(){
 int numero;
 printf("Zona:\n");
@@ -958,7 +968,7 @@ int main() {
 			break;
 		}
 	}
-	//Si elijo (5):salir, finalizo el programa.
+	//Si elijo (6):salir, finalizo el programa.
     if (Menu == 6){
             goy(10);
             printf("Programa terminado\n\n");
