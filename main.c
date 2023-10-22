@@ -4,11 +4,12 @@
 #include <ctype.h>
 #define anioactual 2023
 
-/*
-typedef struct fecha {
-    int dia, mes, anio;};a
-    */
-/*Se define un struct para las propiedades*/
+void limpiarTeclado(){
+    while (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+    // Descartar pulsaciones de tecla de Enter
+}}
+
+
 typedef struct unidades {
     int id,dia,mes,anio;
     char zona[20];
@@ -24,7 +25,7 @@ typedef struct unidades {
     int activo;
 };
 
-// ir a una línea determinada con las flechas del teclado
+// ir a una línea determinada en pantalla
 void goy(int y) {
 	// Obtener handle de la consola
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -47,6 +48,7 @@ void crearStock(FILE * pA){
      if (pA == NULL) {
         // El archivo no existe, así que lo creamos
         pA = fopen("propiedades.dat", "w");
+        printf("\nArchivo creado exitosamente\n");
         } else{
         // El archivo existe, lo cerramos
         fclose(pA);
@@ -831,34 +833,60 @@ fclose(pA);
 
 //3- Menu de filtros para mostrar la lista de las propiedades del archivo pArchivo//
 
-void menulistas(FILE *pA){
-    int i;
+void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
     pA=fopen("propiedades.dat","rb");
-	printf("1.- Mostrar lista completa (Incluyendo Activos e Inactivos)\n");
-	printf("2.- Mostrar solo los Activos\n");
-	printf("3.- Mostrar por un Tipo especifico\n");
-	printf("4.- Mostrar por un rango de tiempo\n");
-	scanf("%d",&i);
-		switch (i) {
+    MenuInicio =1;
+    MenuFin =4;
+    LineaDeInicio =10;
+
+	int Menu;
+	goy(8);
+	printf("///////////////////////////////////////////////////////////////////////////////////");
+	goy(LineaDeInicio);
+	printf("\t1.- Mostrar lista completa (Incluyendo Activos e Inactivos)\n");
+	printf("\t2.- Mostrar solo los Activos\n");
+	printf("\t3.- Mostrar por un Tipo especifico\n");
+	printf("\t4.- Mostrar por un rango de tiempo\n");
+    fflush(stdin);
+	Menu = 1;
+	goy(LineaDeInicio);
+	printf("---->");
+    while(1) {
+		Sleep(100);
+		if (GetAsyncKeyState(VK_UP)) {
+			Menu = Menu == MenuInicio ? MenuFin : --Menu;
+			printf("\r     ");
+			goy(LineaDeInicio + Menu-1);
+			printf("---->");
+		} else if (GetAsyncKeyState(VK_DOWN)) {
+			Menu = Menu == MenuFin ? MenuInicio: ++Menu;
+			printf("\r     ");
+			goy(LineaDeInicio + Menu-1);
+			printf("---->");
+		} else if (GetAsyncKeyState(VK_RETURN)){break;}}
+
+        goy(17);
+		switch (Menu) {
         case 1:
-            printf("Has seleccionado la opcion 1\n");
+          //  printf("Has seleccionado la opcion 1\n");
             Lista(pA);
             break;
         case 2:
-            printf("Has seleccionado la opcion 2\n");
+          //  printf("Has seleccionado la opcion 2\n");
             soloActivos(pA);
             break;
         case 3:
-            printf("Has seleccionado la opcion 3\n");
+           // printf("Has seleccionado la opcion 3\n");
             propiedadPedida(pA);
             break;
         case 4:
-            printf("Has seleccionado la opcion 4\n");
+            //printf("Has seleccionado la opcion 4\n");
             rangoTiempo(pA);
             break;
-        default:
-            printf("El valor esta fuera de rango");
         }
+        fflush(stdin);
+        limpiarTeclado();
+
 }
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
@@ -925,7 +953,6 @@ int main() {
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
 
-
     do{
     system("cls"); //limpiamos pantalla
 	int Menu; //Variable que sirve para saber en que numero de menu estamos
@@ -935,11 +962,8 @@ int main() {
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
-
 	printf("\t4. Baja logica de una propiedad\n");
-
 	printf("\t5. Buscar propiedad\n");
-
 	printf("\t6. Salir\n");
     fflush(stdin);
 	Menu = 1;
@@ -964,46 +988,27 @@ int main() {
 			printf("\r     ");
 			goy(LineaDeInicio + Menu-1);
 			printf("---->");
-		} else if (GetAsyncKeyState(VK_RETURN)) {
-			break;
-		}
+		} else if (GetAsyncKeyState(VK_RETURN)) {break;}
 	}
-	//Si elijo (6):salir, finalizo el programa.
-    if (Menu == 6){
-            goy(10);
-            printf("Programa terminado\n\n");
-            system("pause");
-            return 0;
-    }
 	// Me muevo hacia un espacio donde pueda imprimir los demas datos de la opcion seleccionada
 	goy(10);
-	printf("Has seleccionado la opcion %d\n\n", Menu);
-
 	switch (Menu) {
         case 1:crearStock(pArchivo);
-                //fflush(stdin);
                break;
         case 2:productoNuevo(pArchivo);
-                //fflush(stdin);
                break;
-        case 3:menulistas(pArchivo);
-               // fflush(stdin);
+        case 3:menulistas(pArchivo,MenuInicio,MenuFin,LineaDeInicio);
                break;
-
         case 4:bajaLogica(pArchivo);
-        break;
-
+               break;
         case 5:propiedadPedida(pArchivo);
-               // fflush(stdin);
-
                break;
-        case 6:printf("Seis");
+        case 6:return 0;
                break;
-        default:
-            printf("El valor esta fuera de rango");
         }
     printf("\n");
     fflush(stdin);
+    limpiarTeclado();
 	system("pause");
 	}while(1);
 
