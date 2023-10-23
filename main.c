@@ -74,6 +74,11 @@ struct unidades prop;
 int leido;
 //struct fecha fechaHoy;
     pA=fopen("propiedades.dat","r+b");
+    if (pA == NULL) {
+        // El archivo no existe, salimos
+        printf("El archivo propiedades no existe\n");
+        return 0;
+        }
     while (getchar() != '\n'); //eliminamos todo lo que haya en el buffer para que no haga ni salto de linea por pulsar enter
     //chequeamos que se ingrese correctamente el ID
     do{
