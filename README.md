@@ -10,7 +10,7 @@ Problemas a solucionar
 
 .- A la hora de buscar por un valor char, tipo la ciudad,zona,moneda,operativo por alguna razon el programa no lo reconoce y se cierra 
 
-.- El pirinteo de listas se corre cuando el día o el mes son de 1 o 2 digitos
+
 
 
 
