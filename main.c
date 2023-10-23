@@ -168,16 +168,16 @@ int leido;
     }
     switch(leido){ //Switch para elegir la zona por opciones y minimizar el error
         case 1:
-        strcpy(prop.zona,"Capital Federal");
+        strcpy(prop.zona,"Capital Federal ");
         break;
     case 2:
-        strcpy(prop.zona,"Bs.As.Zona Sur");
+        strcpy(prop.zona,"Bs.As.Zona Sur  ");
         break;
     case 3:
         strcpy(prop.zona,"Bs.As.Zona Norte");
         break;
     case 4:
-        strcpy(prop.zona,"Bs.As.Zona Este");
+        strcpy(prop.zona,"Bs.As.Zona Este ");
         break;
     case 5:
         strcpy(prop.zona,"Bs.As.Zona Oeste");
@@ -186,12 +186,15 @@ int leido;
 
 //----------------------------------------Ciudad-----------------------------------------------------//
     printf("Ingrese la Ciudad del articulo: ");
-    scanf("%s",&prop.ciudad);
-    fflush(stdin);
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
+    int longitud = strlen(prop.ciudad);
+    if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
+    prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
+    }
     while(prop.ciudad==NULL){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la Ciudad del articulo: ");
-    scanf("%s",&prop.ciudad);
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     }
 //---------------------------------------Cantidad de Dormitorios------------------------------------------------------//
 
@@ -280,11 +283,11 @@ int leido;
         while(leido != 1){
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese el precios del articulo: ");
-            leido = scanf("%d",&prop.banios);
+            leido = scanf("%d",&prop.precio);
             fflush(stdin);
         }
     }
-    while(prop.precio<=0){ //Validación
+    while(prop.precio<=0 || prop.precio>=1000000){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese el precio del articulo: ");
     scanf("%f",&prop.precio);
@@ -305,7 +308,7 @@ int leido;
     }
     switch(leido){ //Opciones de moneda para minimizar el error
         case 1:
-        strcpy(prop.moneda,"USD");
+        strcpy(prop.moneda,"USD  ");
         break;
     case 2:
         strcpy(prop.moneda,"PESOS");
@@ -332,10 +335,10 @@ int leido;
         strcpy(prop.tipo,"Departamento");
         break;
     case 2:
-        strcpy(prop.tipo,"PH");
+        strcpy(prop.tipo,"PH          ");
         break;
     case 3:
-        strcpy(prop.tipo,"Casa");
+        strcpy(prop.tipo,"Casa        ");
         break;
     }
 
@@ -360,10 +363,10 @@ int leido;
     //Switch para validar opciones y minimizar el error
     switch(leido){
         case 1:
-        strcpy(prop.operacion,"Venta");
+        strcpy(prop.operacion,"Venta            ");
         break;
     case 2:
-        strcpy(prop.operacion,"Alquiler");
+        strcpy(prop.operacion,"Alquiler         ");
         break;
     case 3:
         strcpy(prop.operacion,"Alquiler Temporal");
@@ -397,16 +400,19 @@ int i=0, cantprod;
 pA=fopen("propiedades.dat","rb");
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-    //printf("Fecha de\t\t\t\t\t\t\t\tSuperficie\tSuperficie\t\t\t\t\t\t\t\t\t\tFecha de");
+
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         i++;
         printf("\n");
    }
@@ -428,11 +434,14 @@ pA=fopen("propiedades.dat","rb");
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
     while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.activo==1){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
    }
@@ -664,6 +673,12 @@ return i;
 void propiedadPedida(FILE *pA){
 struct unidades prop;
 pA=fopen("propiedades.dat","rb");
+
+    if (pA == NULL) {
+        // El archivo no existe, salimos
+        printf("El archivo propiedades no existe\n");
+        return 0;
+        }
 int seleccion=ingresoProp(); //Hago un pedido para saber cual tipo de variable compararemos
 int identificadorInt; //Creo una variable especifica para los valores tipo int
 float identificadorFloat; //Creo una variable especifica para los valores tipo float
@@ -679,13 +694,16 @@ identificadorChar=busquedaChar(seleccion); //Si quiere un char, serian la opcion
 printf("\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
 switch (seleccion) {
     case 1:
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.id==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -695,7 +713,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.zona,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -705,7 +726,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.ciudad,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -715,7 +739,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.dormitorios==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -725,7 +752,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.banios==identificadorInt){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -735,7 +765,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.superficieT==identificadorFloat){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -745,7 +778,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.superficieC==identificadorFloat){
-        printf("|%-4d |%d/%d/%-7d |%-10s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-6s |%-10s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -755,7 +791,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.precio==identificadorFloat){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -765,7 +804,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.tipo,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -775,7 +817,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.moneda,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -785,7 +830,10 @@ switch (seleccion) {
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(strcmp(prop.operacion,identificadorChar) == 0){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");
         }
         }
@@ -840,6 +888,11 @@ fclose(pA);
 
 void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
     pA=fopen("propiedades.dat","rb");
+    if (pA == NULL) {
+        // El archivo no existe, salimos
+        printf("El archivo propiedades no existe\n");
+        return 0;
+        }
     MenuInicio =1;
     MenuFin =4;
     LineaDeInicio =10;
@@ -901,10 +954,15 @@ void bajaLogica(FILE * pA){
 struct unidades prod;
 int art;//=leerArt();
 char opcion;
-printf("ingrese el ID");
-scanf("%d", &art );
 pA=fopen("propiedades.dat","r+b");
 
+    if (pA == NULL) {
+        // El archivo no existe, salimos
+        printf("El archivo propiedades no existe\n");
+        return 0;
+        }
+    printf("ingrese el ID: ");
+    scanf("%d", &art);
     fseek(pA,0,SEEK_SET);
     fseek(pA,(art-1)*sizeof(struct unidades ),SEEK_SET);
     fread(&prod,sizeof(struct unidades ),1,pA);
