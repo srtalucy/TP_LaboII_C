@@ -9,6 +9,10 @@ void limpiarTeclado(){
     // Descartar pulsaciones de tecla de Enter
 }}
 
+void limpiarBuffer(){
+while (getchar() != '\n'); 
+//eliminamos todo lo que haya en el buffer y escriba nada despues del enter en el menu
+}
 
 typedef struct unidades {
     int id,dia,mes,anio;
@@ -79,8 +83,8 @@ int leido;
         printf("El archivo propiedades no existe\n");
         return 0;
         }
-    while (getchar() != '\n'); //eliminamos todo lo que haya en el buffer para que no haga ni salto de linea por pulsar enter
-    //chequeamos que se ingrese correctamente el ID
+    fflush(stdin);
+    limpiarBuffer();
     do{
      do{
     printf("Ingrese el ID del articulo: ");
@@ -689,6 +693,8 @@ pA=fopen("propiedades.dat","rb");
         printf("El archivo propiedades no existe\n");
         return 0;
         }
+fflush(stdin);
+limpiarBuffer();
 int seleccion=ingresoProp(); //Hago un pedido para saber cual tipo de variable compararemos
 int identificadorInt; //Creo una variable especifica para los valores tipo int
 float identificadorFloat; //Creo una variable especifica para los valores tipo float
@@ -971,6 +977,8 @@ pA=fopen("propiedades.dat","r+b");
         printf("El archivo propiedades no existe\n");
         return 0;
         }
+    fflush(stdin);
+    limpiarBuffer();
     printf("ingrese el ID: ");
     scanf("%d", &art);
     fseek(pA,0,SEEK_SET);
