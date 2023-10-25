@@ -414,10 +414,15 @@ pA=fopen("propiedades.dat","rb");
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
+        if (prop.id == 0){
+    printf("|0  |0         |0               |0               |0          |0    |0     |0       |0        |0     |0           |0                |0         |      ");
+        }else{
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
-        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        if (prop.anio == 0){printf("0000");}else{printf("%d|",prop.anio);}
+        printf("%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        }
         i++;
         printf("\n");
    }
