@@ -146,7 +146,7 @@ int leido;
     }while(prop.dia>veodia || prop.dia < 0);
 
     do{
-    printf("\nIngrese el a%co: ",164);
+    printf("Ingrese el a%co: ",164);
     scanf("%d",&prop.anio);
     fflush(stdin);
     if (prop.anio != anioactual){printf("\nAño fuera de rango, ingrese nuevamente");}
@@ -192,14 +192,16 @@ int leido;
 //----------------------------------------Ciudad-----------------------------------------------------//
     printf("Ingrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
+    fflush(stdin);
     int longitud = strlen(prop.ciudad);
     if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
     prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
     }
-    while(prop.ciudad==NULL){ //Validación
+    while(prop.ciudad==NULL || longitud > 17 || longitud < 0){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
+    fflush(stdin);
     }
 //---------------------------------------Cantidad de Dormitorios------------------------------------------------------//
 
@@ -216,7 +218,7 @@ int leido;
             fflush(stdin);
         }
     }
-    while(prop.dormitorios<0){ //Validación
+    while(prop.dormitorios<0 || prop.dormitorios > 999){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la cantidad de Dormitorios del articulo: ");
     scanf("%d",&prop.dormitorios);
