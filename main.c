@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include <ctype.h>
+#include <string.h>
 #define anioactual 2023
 
 void limpiarTeclado(){
@@ -10,7 +10,7 @@ void limpiarTeclado(){
 }}
 
 void limpiarBuffer(){
-while (getchar() != '\n'); 
+while (getchar() != '\n');
 //eliminamos todo lo que haya en el buffer y escriba nada despues del enter en el menu
 }
 
@@ -85,7 +85,7 @@ int leido;
         }
     fflush(stdin);
     limpiarBuffer();
-    
+
      do{
     printf("Ingrese el ID del articulo: ");
     leido = scanf("%d",&prop.id);
@@ -103,7 +103,7 @@ int leido;
     }
     if (prop.id<0){printf("\nNumero fuera de rango\n");}//Se valida que no sea un numero negativo
     }while(prop.id<0);
-       
+
     //ingresamos mes primero para que le día no se pase de rango luego
     do{
     printf("Ingrese el mes: ");
@@ -149,7 +149,7 @@ int leido;
     printf("Ingrese el a%co: ",164);
     scanf("%d",&prop.anio);
     fflush(stdin);
-    if (prop.anio != anioactual){printf("\nAño fuera de rango, ingrese nuevamente");}
+    if (prop.anio != anioactual){printf("\nA%co fuera de rango, ingrese nuevamente\n",164);}
     }while(prop.anio != anioactual);
 
     //Se pide el ingreso de datos para una nueva propiedad
@@ -473,7 +473,7 @@ printf("Operativo:\n");
 printf("1- Venta \n");
 printf("2- Alquiler \n");
 printf("3- Alquiler Temporal\n");
-scanf("%d",numero);
+scanf("%d",&numero);
 if (numero<=0 || numero>3 ){
 while (numero<=0 || numero>3 ){
 printf("Ingreso un valor fuera del rango\n");
@@ -490,7 +490,7 @@ printf("Tipo:\n");
 printf("1- Departamento \n");
 printf("2- PH \n");
 printf("3- Casa \n");
-scanf("%d",numero);
+scanf("%d",&numero);
 if (numero<=0 || numero>3 ){
 while (numero<=0 || numero>3 ){
 printf("Ingreso un valor fuera del rango\n");
@@ -506,7 +506,7 @@ int numero;
 printf("Moneda:\n");
 printf("1- USD \n");
 printf("2- PESOS \n");
-scanf("%d",numero);
+scanf("%d",&numero);
 if (numero<=0 || numero>2 ){
 while (numero<=0 || numero>2 ){
 printf("Ingreso un valor fuera del rango\n");
@@ -525,7 +525,7 @@ printf("2- Bs.As. G.B.A. Zona Sur \n");
 printf("3- Bs.As. G.B.A. Zona Norte \n");
 printf("4- Bs.As. G.B.A. Zona Este \n");
 printf("5- Bs.As. G.B.A. Zona Oeste \n");
-scanf("%d",numero);
+scanf("%d",&numero);
 if (numero<=0 || numero>5 ){
 while (numero<=0 || numero>5 ){
 printf("Ingreso un valor fuera del rango\n");
@@ -557,78 +557,6 @@ switch (i) {
         break;
     }
 return variable;
-}
-
-//Funcion para solo ingresar los valores tipo Char//
-char* busquedaChar(int i){
-int seleccion;
-char *letras;
-switch (i) {
-    case 2:
-        seleccion=Zona();
-        switch (seleccion){
-        case 1:
-        letras="Capital Federal";
-        break;
-        case 2:
-        letras="Bs.As.Zona Sur";
-        break;
-        case 3:
-        letras="Bs.As.Zona Norte";
-        break;
-        case 4:
-        letras="Bs.As.Zona Este";
-        break;
-        case 5:
-        letras="Bs.As.Zona Oeste";
-        break;
-        }
-        break;
-    case 3:
-        printf("Ciudad:");
-        scanf(" %s", &letras);
-        break;
-    case 9:
-        seleccion=Moneda();
-        switch (seleccion){
-        case 1:
-        letras="USD";
-        break;
-        case 2:
-        letras="PESOS";
-        break;
-        }
-        break;
-    case 10:
-        seleccion=Tipo();
-        switch (seleccion){
-        case 1:
-        letras="Departamento";
-        break;
-        case 2:
-        letras="PH";
-        break;
-        case 3:
-        letras="Casa";
-        break;
-        }
-        break;
-    case 11:
-        seleccion=Tipo();
-        switch (seleccion){
-        case 1:
-        letras="Venta";
-        break;
-        case 2:
-        letras="Alquiler";
-        break;
-        case 3:
-        letras="Alquiler Temporal";
-        break;
-        }
-        break;
-    }
-return letras;
 }
 
 //Funcion para solo ingresar los valores tipo Int//
@@ -693,17 +621,34 @@ pA=fopen("propiedades.dat","rb");
         }
 fflush(stdin);
 limpiarBuffer();
+int seleccion_char;
 int seleccion=ingresoProp(); //Hago un pedido para saber cual tipo de variable compararemos
 int identificadorInt; //Creo una variable especifica para los valores tipo int
 float identificadorFloat; //Creo una variable especifica para los valores tipo float
-char *identificadorChar; //Creo una variable especifica para los valores tipo char
-
+char letras[50]; //Creo una variable especifica para los valores tipo char (Cadena)
  if (seleccion ==1 || seleccion ==4 || seleccion ==5){
 identificadorInt=busquedaInt(seleccion); //Si quiere un Int, serian la opcion 1,4,5
 } else if (seleccion ==6 || seleccion ==7 || seleccion ==8){
 identificadorFloat=busquedaFloat(seleccion); //Si quiere un float, serian la opcion 6,7,8
-} else {
-identificadorChar=busquedaChar(seleccion); //Si quiere un char, serian la opcion 2,3,9,10,11
+} else {  //Si quiere un char, serian la opcion 2,3,9,10,11
+ switch (seleccion){
+    case 2:
+        seleccion_char=Zona();
+        break;
+    case 3:
+        printf("Ciudad:");
+        gets(letras);
+        break;
+    case 9:
+        seleccion_char=Moneda();
+        break;
+    case 10:
+        seleccion_char=Tipo();
+        break;
+    case 11:
+        seleccion_char=Operativo();
+        break;
+    }
 }
 printf("\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -724,9 +669,11 @@ switch (seleccion) {
         }
         break;
     case 2:
+        switch (seleccion_char){
+            case 1 : //Cuando se quiera imprimir solo los de Capital federal
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-        if(strcmp(prop.zona,identificadorChar) == 0){
+        if(strcmp(prop.zona,"Capital Federal ") == 0){
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
@@ -736,10 +683,65 @@ switch (seleccion) {
         }
         }
         break;
-    case 3:
+            case 2 : //Cuando se quiera imprimir solo los de Bs.As.Zona Sur
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-        if(strcmp(prop.ciudad,identificadorChar) == 0){
+        if(strcmp(prop.zona,"Bs.As.Zona Sur  ") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+            case 3 : //Cuando se quiera imprimir solo los de Bs.As.Zona Norte
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.zona,"Bs.As.Zona Norte") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+            case 4 : //Cuando se quiera imprimir solo los de Bs.As.Zona Este
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.zona,"Bs.As.Zona Este ") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+            case 5 : //Cuando se quiera imprimir solo los de Bs.As.Zona Oeste
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.zona,"Bs.As.Zona Oeste") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+        }
+        break;
+    case 3:
+        letras[strcspn(letras, "\n")] = '\0';
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.ciudad,letras) == 0){
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
@@ -814,10 +816,12 @@ switch (seleccion) {
         }
         }
         break;
-    case 9:
+    case 9: //Cuando se quiera imprimir solo los USD
+        switch (seleccion_char){
+            case 1 :
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-        if(strcmp(prop.tipo,identificadorChar) == 0){
+        if(strcmp(prop.moneda,"USD  ") == 0){
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
@@ -825,12 +829,29 @@ switch (seleccion) {
         printf("\n");
         }
         }
+        }
+        break;
+            case 2 : //Cuando se quiera imprimir solo los Pesos
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.moneda,"PESOS") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
         }
         break;
     case 10:
+        switch (seleccion_char){
+            case 1 : //Cuando se quiera imprimir solo los Departamentos
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-        if(strcmp(prop.moneda,identificadorChar) == 0){
+        if(strcmp(prop.tipo,"Departamento") == 0){
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
@@ -838,12 +859,42 @@ switch (seleccion) {
         printf("\n");
         }
         }
+        }
+        break;
+            case 2 : //Cuando se quiera imprimir solo los PH
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.tipo,"PH          ") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+            case 3 : //Cuando se quiera imprimir solo las Casas
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.tipo,"Casa        ") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
         }
         break;
     case 11:
+        switch (seleccion_char){
+            case 1 : //Cuando se quiera imprimir solo las de Venta
         while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-        if(strcmp(prop.operacion,identificadorChar) == 0){
+        if(strcmp(prop.operacion,"Venta            ") == 0){
         printf("|%-3d|",prop.id);
         if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
         if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
@@ -853,10 +904,37 @@ switch (seleccion) {
         }
         }
         break;
+            case 2 : //Cuando se quiera imprimir solo las de Alquiler
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.operacion,"Alquiler         ") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+            case 3 : //Cuando se quiera imprimir solo las de Alquiler Temporal
+        while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(strcmp(prop.operacion,"Alquiler Temporal") == 0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+        }
+        }
+        break;
+        }
    }
 
-    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 fclose(pA);
 }
 
