@@ -85,7 +85,7 @@ int leido;
         }
     fflush(stdin);
     limpiarBuffer();
-    do{
+    
      do{
     printf("Ingrese el ID del articulo: ");
     leido = scanf("%d",&prop.id);
@@ -103,16 +103,7 @@ int leido;
     }
     if (prop.id<0){printf("\nNumero fuera de rango\n");}//Se valida que no sea un numero negativo
     }while(prop.id<0);
-        fseek(pA,(prop.id-1)*sizeof(struct unidades ),SEEK_SET);
-        fread(&prop,sizeof(struct unidades),1,pA);
-     if (prop.activo == 0) { //chequeo de que el activo no este ocupado
-     }
-     else {
-       fseek(pA,(prop.id-1)*sizeof(struct unidades ),SEEK_SET);
-       prop.id = -1;
-       fwrite(&prop, sizeof(struct unidades), 1, pA);
-       printf("El ID ingresado ya tiene una propiedad activa, por favor ingrese uno nuevo \n");}
-       }while(prop.activo != 0);
+       
     //ingresamos mes primero para que le día no se pase de rango luego
     do{
     printf("Ingrese el mes: ");
