@@ -190,7 +190,7 @@ int leido;
     }
 
 //----------------------------------------Ciudad-----------------------------------------------------//
-        printf("Ingrese la Ciudad del articulo: ");
+    printf("Ingrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     int contador;
@@ -979,11 +979,17 @@ scanf("%d",&anio);
     while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.dia<=dia && prop.mes <= mes && prop.anio <= anio && prop.activo==1){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
         printf("\n");}
         if(prop.dia>dia && prop.mes < mes && prop.anio <= anio && prop.activo==1){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
-        printf("\n");
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");;
         }
    }
    }
@@ -1123,9 +1129,121 @@ int i=0, cantprod;
 printf("\n\n");
 fclose(pA);
 }
+
+//------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------//
+
+// 6- Modificar una propiedad
+void Modificarpropiedad(FILE * pA){
+struct unidades prop;
+int id;
+int opcion;
+int numero;
+int validacion;
+pA=fopen("propiedades.dat","r+b");
+printf("Ingrese el ID a buscar:");
+scanf("%d",&id);
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("|ID   |ingreso      |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+while(!feof(pA)){
+if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+if(prop.id==id){
+printf("|%-3d|",prop.id);
+if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+printf("\n");
+}}}
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("Que valor quiere modificar:\n");
+printf("1-Ciudad\n");
+printf("2-Precio\n");
+scanf("%d",&opcion);
+while (opcion<1 || opcion>2){
+        printf("Ingreso Invalido, eliga una de las opciones mostradas\n");
+        printf("Que valor quiere modificar:\n");
+        printf("1-Ciudad\n");
+        printf("2-Precio\n");
+        scanf(" %d", &opcion);
+}
+printf("Esta seguro que desea modificar los datos\n");
+printf("1-Si\n");
+printf("2-No\n");
+scanf(" %d", &validacion);
+if(validacion==1){
+  switch(opcion){
+    case 1:
+    printf("Introduce La nueva ciudad: ");
+    scanf("%s", prop.ciudad);
+    fseek(pA,ftell(pA)-sizeof(struct unidades),SEEK_SET);
+    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    fflush(stdin);
+    int contador;
+    int longitud = strlen(prop.ciudad);
+    if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
+    prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
+    }
+    while(prop.ciudad==NULL || longitud > 17 || longitud <= 1){ //Validación
+    printf("Valor invalido\n");
+    printf("Introduce La nueva ciudad: ");
+    scanf(" %s", prop.ciudad);
+    fflush(stdin);
+    longitud = strlen(prop.ciudad);
+    if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
+    prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
+    }
+    }
+    while (isalpha(prop.ciudad[0]==0)){ //Para verificar que se haya ingresado una letra por lo menos
+    printf("Valor invalido\n");
+    printf("Introduce La nueva ciudad: ");
+    scanf(" %s", prop.ciudad);
+    fflush(stdin);
+    }
+    for(contador=0; prop.ciudad[contador]!='\0' ; contador++){ //Para convertir cualquier cadena que se ingrese, en la primera mayuscula, el resto minusculas
+    if(contador==0){
+    prop.ciudad[contador] = toupper(prop.ciudad[contador]);
+    }
+    else{
+    prop.ciudad[contador] = tolower(prop.ciudad[contador]);
+    }
+    }
+    break;
+    case 2:
+    printf("Introduce el nuevo Precio: ");
+    numero = scanf("%f",&prop.precio);
+    fseek(pA,ftell(pA)-sizeof(struct unidades),SEEK_SET);
+    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    fflush(stdin);
+        if (numero == 1){
+    }
+    else{ //Validación
+        while(numero != 1){
+            printf("Por favor ingrese un valor numerico \n");
+            printf("Introduce el nuevo Precio: ");
+            numero = scanf("%d",&prop.precio);
+            fflush(stdin);
+        }
+    }
+    while(prop.precio<=0 || prop.precio>=1000000){ //Validación
+    printf("Valor invalido\n");
+    printf("Introduce el nuevo Precio:");
+    scanf("%f",&prop.precio);
+    }
+        break;
+        }
+}
+printf("\n\n");
+fclose(pA);
+}
+
+//------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------//
+
 int main() {
     int MenuInicio =1;      // Establece el primer numero del menu
-    int MenuFin =6;	        // Establece último numero del menu
+    int MenuFin =7;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
 
@@ -1140,7 +1258,8 @@ int main() {
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
 	printf("\t4. Baja logica de una propiedad\n");
 	printf("\t5. Buscar propiedad\n");
-	printf("\t6. Salir\n");
+	printf("\t6. Mofificar una propiedad\n");
+	printf("\t7. Salir\n");
     fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
@@ -1179,7 +1298,9 @@ int main() {
                break;
         case 5:propiedadPedida(pArchivo);
                break;
-        case 6:return 0;
+        case 6:Modificarpropiedad(pArchivo);
+               break;
+        case 7:return 0;
                break;
         }
     printf("\n");
