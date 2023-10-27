@@ -190,18 +190,37 @@ int leido;
     }
 
 //----------------------------------------Ciudad-----------------------------------------------------//
-    printf("Ingrese la Ciudad del articulo: ");
+        printf("Ingrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
+    int contador;
     int longitud = strlen(prop.ciudad);
     if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
     prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
     }
-    while(prop.ciudad==NULL || longitud > 17 || longitud < 0){ //Validación
+    while(prop.ciudad==NULL || longitud > 17 || longitud <= 1){ //Validación
     printf("Valor invalido\n");
     printf("Ingrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
+    longitud = strlen(prop.ciudad);
+    if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
+    prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
+    }
+    }
+    while (isalpha(prop.ciudad[0]==0)){ //Para verificar que se haya ingresado una letra por lo menos
+    printf("Valor invalido\n");
+    printf("Ingrese la Ciudad del articulo: ");
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
+    fflush(stdin);
+    }
+    for(contador=0; prop.ciudad[contador]!='\0' ; contador++){ //Para convertir cualquier cadena que se ingrese, en la primera mayuscula, el resto minusculas
+    if(contador==0){
+    prop.ciudad[contador] = toupper(prop.ciudad[contador]);
+    }
+    else{
+    prop.ciudad[contador] = tolower(prop.ciudad[contador]);
+    }
     }
 //---------------------------------------Cantidad de Dormitorios------------------------------------------------------//
 
