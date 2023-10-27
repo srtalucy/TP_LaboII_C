@@ -1078,10 +1078,12 @@ void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
 //------------------------------------------------------------------------------------------------------------//
 
 // 4- baja logica de una propiedad
-void bajaLogica(FILE * pA){
+void bajaLogica(FILE * pA,FILE * xyz){
 struct unidades prod;
 int art;//=leerArt();
 char opcion;
+xyz = fopen("baja.xyz","r+b");
+if (xyz == NULL ) {xyz = fopen("baja.xyz","w+b");}
 pA=fopen("propiedades.dat","r+b");
 
     if (pA == NULL) {
@@ -1129,9 +1131,13 @@ int i=0, cantprod;
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
-        if(prop.activo == 1 ){
-        printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        if(prop.activo != 1 ){
+         fwrite(&prop, sizeof(struct unidades), 1, xyz);
         }
+        else{
+             printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        }
+
 
         i++;
 
@@ -1139,6 +1145,7 @@ int i=0, cantprod;
    }
 printf("\n\n");
 fclose(pA);
+fclose(xyz);
 }
 
 //------------------------------------------------------------------------------------------------------------//
