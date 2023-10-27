@@ -75,7 +75,7 @@ int corroborar(int hoy){
 // 2-Ingresar una propiedad nueva
 void productoNuevo(FILE * pA){
 struct unidades prop;
-int leido;
+int leido,flag=1;
 //struct fecha fechaHoy;
     pA=fopen("propiedades.dat","r+b");
     if (pA == NULL) {
@@ -85,7 +85,7 @@ int leido;
         }
     fflush(stdin);
     limpiarBuffer();
-
+	
      do{
     printf("Ingrese el ID del articulo: ");
     leido = scanf("%d",&prop.id);
@@ -101,8 +101,19 @@ int leido;
             fflush(stdin);
         }
     }
-    if (prop.id<0){printf("\nNumero fuera de rango\n");}//Se valida que no sea un numero negativo
-    }while(prop.id<0);
+    if (prop.id<0){
+            flag=1;
+            printf("\nNumero fuera de rango\n");
+    }else{
+        fseek(pA,0,SEEK_SET);
+        fseek(pA,(prop.id-1)*sizeof(struct unidades),SEEK_SET);
+        fread(&prop,sizeof(struct unidades),1,pA);
+        if (prop.activo == 1){
+            flag=1;
+            printf("El ID ya existe, ingrese otro\n");
+            }else{flag=0;}
+    }
+    }while(flag==1);
 
     //ingresamos mes primero para que le día no se pase de rango luego
     do{
