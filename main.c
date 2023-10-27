@@ -1142,21 +1142,19 @@ fclose(pA);
 }
 
 //------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------------//
 
 // 6- Modificar una propiedad
 void Modificarpropiedad(FILE * pA){
 struct unidades prop;
-int id;
-int opcion;
-int numero;
-int validacion;
+int id,opcion,numero,validacion;
 pA=fopen("propiedades.dat","r+b");
+fflush(stdin);
+limpiarBuffer();
 printf("Ingrese el ID a buscar:");
 scanf("%d",&id);
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-printf("|ID   |ingreso      |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
 while(!feof(pA)){
 if(fread(&prop,sizeof(struct unidades),1,pA)==1){
 if(prop.id==id){
@@ -1183,13 +1181,12 @@ printf("Esta seguro que desea modificar los datos\n");
 printf("1-Si\n");
 printf("2-No\n");
 scanf(" %d", &validacion);
+fflush(stdin);
 if(validacion==1){
   switch(opcion){
     case 1:
-    printf("Introduce La nueva ciudad: ");
-    scanf("%s", prop.ciudad);
-    fseek(pA,ftell(pA)-sizeof(struct unidades),SEEK_SET);
-    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    printf("Introduce la nueva ciudad: ");
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     int contador;
     int longitud = strlen(prop.ciudad);
@@ -1199,7 +1196,7 @@ if(validacion==1){
     while(prop.ciudad==NULL || longitud > 17 || longitud <= 1){ //Validación
     printf("Valor invalido\n");
     printf("Introduce La nueva ciudad: ");
-    scanf(" %s", prop.ciudad);
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     longitud = strlen(prop.ciudad);
     if (longitud > 0 && prop.ciudad[longitud - 1] == '\n') {
@@ -1209,7 +1206,7 @@ if(validacion==1){
     while (isalpha(prop.ciudad[0]==0)){ //Para verificar que se haya ingresado una letra por lo menos
     printf("Valor invalido\n");
     printf("Introduce La nueva ciudad: ");
-    scanf(" %s", prop.ciudad);
+    fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     }
     for(contador=0; prop.ciudad[contador]!='\0' ; contador++){ //Para convertir cualquier cadena que se ingrese, en la primera mayuscula, el resto minusculas
@@ -1220,6 +1217,10 @@ if(validacion==1){
     prop.ciudad[contador] = tolower(prop.ciudad[contador]);
     }
     }
+    fseek(pA,0,SEEK_SET);
+    fseek(pA,(id-1)*sizeof(struct unidades),SEEK_SET);
+    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    fflush(stdin);
     break;
     case 2:
     printf("Introduce el nuevo Precio: ");
@@ -1248,7 +1249,6 @@ if(validacion==1){
 printf("\n\n");
 fclose(pA);
 }
-
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
 
