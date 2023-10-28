@@ -987,7 +987,7 @@ scanf("%d",&anio);
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("|ID   |ingreso      |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
     while(!feof(pA)){
         if(fread(&prop,sizeof(struct unidades),1,pA)==1){
         if(prop.dia<=dia && prop.mes <= mes && prop.anio <= anio && prop.activo==1){
