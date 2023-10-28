@@ -666,8 +666,9 @@ identificadorFloat=busquedaFloat(seleccion); //Si quiere un float, serian la opc
         seleccion_char=Zona();
         break;
     case 3:
+        fflush( stdin );
         printf("Ciudad:");
-        gets(letras);
+        fgets(letras,50, stdin);
         break;
     case 9:
         seleccion_char=Moneda();
