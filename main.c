@@ -85,7 +85,6 @@ int leido,flag=1;
         }
     fflush(stdin);
     limpiarBuffer();
-	
      do{
     printf("Ingrese el ID del articulo: ");
     leido = scanf("%d",&prop.id);
@@ -978,12 +977,14 @@ void rangoTiempo(FILE *pA){
 struct unidades prop;
 pA=fopen("propiedades.dat","rb");
 int dia,mes,anio;
+fflush(stdin);
+limpiarBuffer();
 printf("ingrese el dia:");
-scanf("%d",&dia);
+scanf(" %d", &dia);
 printf("ingrese el mes:");
-scanf("%d",&mes);
-printf("ingrese el anio:");
-scanf("%d",&anio);
+scanf(" %d", &mes);
+printf("ingrese el a%co:",164);
+scanf(" %d", &anio);
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -1103,7 +1104,16 @@ pA=fopen("propiedades.dat","r+b");
      return;
     }
     printf("Usted dar%c de baja a:\n", 160);
-    printf("Zona: %s, Ciudad: %s, Dormitorios: %d, banios: %d, SuperficieT: %.2f,SuperficieC: %.2f, Precio: %.2f, Moneda: %s, Tipo: %s, Operacion: %s \n",prod.zona,prod.ciudad, prod.dormitorios, prod.banios, prod.superficieT, prod.superficieC, prod.precio, prod.moneda,prod.tipo,prod.operacion);
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
+    printf("|%-3d|",prod.id);
+    if (prod.dia < 10){printf("0%d/",prod.dia);}else{printf("%d/",prod.dia);}
+    if (prod.mes < 10){printf("0%d/",prod.mes);}else{printf("%d/",prod.mes);}
+    printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prod.anio,prod.zona,prod.ciudad,prod.dormitorios,prod.banios,prod.superficieT,prod.superficieC,prod.precio,prod.moneda,prod.tipo,prod.operacion,prod.activo);
+    printf("\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("Esta seguro de que quiere darla de baja? Ingrese 'S' para si o 'N' para no ");
     opcion = getchar();
     opcion = toupper(opcion);
@@ -1125,22 +1135,24 @@ struct unidades prop;
 int i=0, cantprod;
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-    printf("|ID   |ingreso     |Zona            |Ciudad     |Dormitorios  |Ba%cos  |total     |cubierta  |Precio       |Moneda   |Tipo         |Operacion          |salida |Activo\n",164);
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
-        fread(&prop,sizeof(struct unidades),1,pA);
-        if(prop.activo == 1 ){
-         printf("|%-4d |%d/%d/%-7d |%-15s |%-10s |%-12d |%-6d |%-9.1f |%-9.1f |%-12.1f |%-8s |%-12s |%-19s|       |%-1d",prop.id,prop.dia,prop.mes,prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
-        }
-       
-        
-
-
-        i++;
-
+        fread(&prod,sizeof(struct unidades),1,pA);
+        if(prod.activo == 1 ){
+        printf("|%-3d|",prod.id);
+        if (prod.dia < 10){printf("0%d/",prod.dia);}else{printf("%d/",prod.dia);}
+        if (prod.mes < 10){printf("0%d/",prod.mes);}else{printf("%d/",prod.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prod.anio,prod.zona,prod.ciudad,prod.dormitorios,prod.banios,prod.superficieT,prod.superficieC,prod.precio,prod.moneda,prod.tipo,prod.operacion,prod.activo);
         printf("\n");
+        }
+        i++;
    }
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("\n\n");
 fclose(pA);
 }
@@ -1247,6 +1259,10 @@ if(validacion==1){
     printf("Introduce el nuevo Precio:");
     scanf("%f",&prop.precio);
     }
+    fseek(pA,0,SEEK_SET);
+    fseek(pA,(id-1)*sizeof(struct unidades),SEEK_SET);
+    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    fflush(stdin);
         break;
         }
 }
