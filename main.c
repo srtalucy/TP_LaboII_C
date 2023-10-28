@@ -105,9 +105,9 @@ int leido,flag=1;
             flag=1;
             printf("\nNumero fuera de rango\n");
     }else{
-        fseek(pA,0,SEEK_SET);
-        fseek(pA,(prop.id-1)*sizeof(struct unidades),SEEK_SET);
-        fread(&prop,sizeof(struct unidades),1,pA);
+//        fseek(pA,0,SEEK_SET);
+//        fseek(pA,(prop.id-1)*sizeof(struct unidades),SEEK_SET);
+//        fread(&prop,sizeof(struct unidades),1,pA);
         if (prop.activo == 1){
             flag=1;
             printf("El ID ya existe, ingrese otro\n");
