@@ -1172,28 +1172,39 @@ void Modificarpropiedad(FILE * pA){
 struct unidades prop;
 int id,opcion,numero,validacion;
 pA=fopen("propiedades.dat","r+b");
+fseek(pA, 0, SEEK_END);                                 //    calculamos el total
+int numRegistros = ftell(pA) / sizeof(struct unidades); //    de ID's para saber si existe en el dat, sino sale.
 fflush(stdin);
 limpiarBuffer();
-printf("Ingrese el ID a buscar:");
+printf("Ingrese el ID a buscar: ");
 scanf("%d",&id);
+fflush(stdin);
+//Corroboramos que exista dicho ID
+//Si está fuera de rango, salimos. Sino vamos a la linea donde se encuentra
+if (id > numRegistros){
+    printf("El ID no existe");
+    return;
+    }else{
+    fseek(pA,(id-1)*sizeof(struct unidades),SEEK_SET);
+    fread(&prop,sizeof(struct unidades),1,pA);
+    if(prop.id==0){return;}
+    }
+
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
-while(!feof(pA)){
-if(fread(&prop,sizeof(struct unidades),1,pA)==1){
-if(prop.id==id){
 printf("|%-3d|",prop.id);
 if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
 if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
 printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
 printf("\n");
-}}}
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
 printf("Que valor quiere modificar:\n");
 printf("1-Ciudad\n");
 printf("2-Precio\n");
 scanf("%d",&opcion);
+fflush(stdin);
 while (opcion<1 || opcion>2){
         printf("Ingreso Invalido, eliga una de las opciones mostradas\n");
         printf("Que valor quiere modificar:\n");
@@ -1241,11 +1252,11 @@ if(validacion==1){
     prop.ciudad[contador] = tolower(prop.ciudad[contador]);
     }
     }
-    fseek(pA,0,SEEK_SET);
-    fseek(pA,(id-1)*sizeof(struct unidades),SEEK_SET);
-    fwrite(&prop, sizeof(struct unidades), 1, pA);
+    fseek(pA,(prop.id-1)*sizeof(struct unidades),SEEK_SET);
+    fwrite(&prop,sizeof(struct unidades),1,pA);
     fflush(stdin);
     break;
+	  
     case 2:
     printf("Introduce el nuevo Precio: ");
     numero = scanf("%f",&prop.precio);
