@@ -75,7 +75,7 @@ int corroborar(int hoy){
 // 2-Ingresar una propiedad nueva
 void productoNuevo(FILE * pA){
 struct unidades prop;
-int leido,flag=1;
+int leido,flag,temp;
 //struct fecha fechaHoy;
     pA=fopen("propiedades.dat","r+b");
     if (pA == NULL) {
@@ -83,37 +83,45 @@ int leido,flag=1;
         printf("El archivo propiedades no existe\n");
         return 0;
         }
+        //Con esto sé el numero maximo del dat hasta este momento
+        fseek(pA, 0, SEEK_END);
+        int numRegistros = ftell(pA) / sizeof(struct unidades);
+    //Limpio cualquier cosa que haya en buffer cuando presioné enter	
     fflush(stdin);
     limpiarBuffer();
-     do{
+	
+    do{
+    flag=1; //setteamos el flag para que si no se cumple ninguna valid. vuelva a ingresar
     printf("Ingrese el ID del articulo: ");
-    leido = scanf("%d",&prop.id);
+    leido = scanf("%d",&temp);
     fflush(stdin);
     if (leido == 1){
     }
     //Si no se ingresa un valor correcto se pide nuevamente
     else{
-        while(leido != 1){
+        while(leido != 1)
+	    {
             printf("Por favor ingrese un valor numerico \n");
             printf("Ingrese el ID del articulo: ");
-            leido = scanf("%d",&prop.id);
+            leido = scanf("%d",&temp);
             fflush(stdin);
-        }
-    }
-    if (prop.id<0){
+            }
+    	}
+    if (temp<0 || temp >= 1000){
             flag=1;
-            printf("\nNumero fuera de rango\n");
+            printf("Numero fuera de rango\n");
     }else{
-//        fseek(pA,0,SEEK_SET);
-//        fseek(pA,(prop.id-1)*sizeof(struct unidades),SEEK_SET);
-//        fread(&prop,sizeof(struct unidades),1,pA);
-        if (prop.activo == 1){
-            flag=1;
-            printf("El ID ya existe, ingrese otro\n");
-            }else{flag=0;}
-    }
+            if (temp > numRegistros){
+                flag=0;
+                }else{
+                fseek(pA,(temp-1)*sizeof(struct unidades),SEEK_SET);
+                fread(&prop,sizeof(struct unidades),1,pA);
+                flag = (prop.id==0 ? 0 : (flag = (prop.activo==0 ? 0 : 1)));
+		if (flag==1){printf("El ID que intenta ingresar ya existe\n");};
+                     }
+         }
     }while(flag==1);
-
+     prop.id=temp;
     //ingresamos mes primero para que le día no se pase de rango luego
     do{
     printf("Ingrese el mes: ");
