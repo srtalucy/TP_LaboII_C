@@ -1288,7 +1288,7 @@ printf ("                |                     Integrantes del grupo TP LABO2   
 printf ("                |                     Franco Macri                                            |\n");
 printf ("                |                     Ramos Florecia Ayelen                                   |\n");
 printf ("                |                     Elias Serantes                                          |\n");
-printf ("                |                     Jhonny Rafael Arvelo Cabrera                            |\n");
+printf ("                |                     Johnny Rafael Arvelo Cabrera                            |\n");
 printf ("                |                     Agustin Bardelli                                        |\n");
 printf ("                |                     Leon Caceres Christian Alexis Osvaldo                   |\n");
 SetConsoleTextAttribute(hConsole,2);
