@@ -86,10 +86,10 @@ int leido,flag,temp;
         //Con esto sé el numero maximo del dat hasta este momento
         fseek(pA, 0, SEEK_END);
         int numRegistros = ftell(pA) / sizeof(struct unidades);
-    //Limpio cualquier cosa que haya en buffer cuando presioné enter	
+    //Limpio cualquier cosa que haya en buffer cuando presioné enter
     fflush(stdin);
     limpiarBuffer();
-	
+
     do{
     flag=1; //setteamos el flag para que si no se cumple ninguna valid. vuelva a ingresar
     printf("Ingrese el ID del articulo: ");
@@ -432,7 +432,31 @@ int leido,flag,temp;
 
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
+void listaBaja(){
+    FILE *pA;
+    pA=fopen("baja.xyz","rb");
+struct unidades prop;
 
+    printf("\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
+    while(!feof(pA)){
+        if(fread(&prop,sizeof(struct unidades),1,pA)==1){
+        if(prop.activo==0){
+        printf("|%-3d|",prop.id);
+        if (prop.dia < 10){printf("0%d/",prop.dia);}else{printf("%d/",prop.dia);}
+        if (prop.mes < 10){printf("0%d/",prop.mes);}else{printf("%d/",prop.mes);}
+        printf("%d|%s|%-16s|%-11d|%-4d |%-5.1f |%-7.1f |%-8.1f |%-4s |%s|%-9s|          |%d",prop.anio,prop.zona,prop.ciudad,prop.dormitorios,prop.banios,prop.superficieT,prop.superficieC,prop.precio,prop.moneda,prop.tipo,prop.operacion,prop.activo);
+        printf("\n");
+        }
+   }
+   }
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
+fclose(pA);
+
+}
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
 
@@ -1020,6 +1044,7 @@ fclose(pA);
 }
 
 //------------------------------------------------------------------------------------------------------------//
+
 //------------------------------------------------------------------------------------------------------------//
 
 //3- Menu de filtros para mostrar la lista de las propiedades del archivo pArchivo//
@@ -1032,17 +1057,18 @@ void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
         return 0;
         }
     MenuInicio =1;
-    MenuFin =4;
-    LineaDeInicio =10;
+    MenuFin =5;
+    LineaDeInicio =13;
 
 	int Menu;
-	goy(8);
+	goy(11);
 	printf("///////////////////////////////////////////////////////////////////////////////////");
 	goy(LineaDeInicio);
 	printf("\t1.- Mostrar lista completa (Incluyendo Activos e Inactivos)\n");
 	printf("\t2.- Mostrar solo los Activos\n");
 	printf("\t3.- Mostrar por un Tipo especifico\n");
 	printf("\t4.- Mostrar por un rango de tiempo\n");
+	printf("\t5.- Mostrar dados de baja\n");
     fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
@@ -1079,6 +1105,8 @@ void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
             //printf("Has seleccionado la opcion 4\n");
             rangoTiempo(pA);
             break;
+        case 5:
+            listaBaja();
         }
         fflush(stdin);
         limpiarTeclado();
@@ -1256,7 +1284,7 @@ if(validacion==1){
     fwrite(&prop,sizeof(struct unidades),1,pA);
     fflush(stdin);
     break;
-	  
+
     case 2:
     printf("Introduce el nuevo Precio: ");
     numero = scanf("%f",&prop.precio);
@@ -1289,6 +1317,64 @@ printf("\n\n");
 fclose(pA);
 }
 //------------------------------------------------------------------------------------------------------------//
+void bajaFisica(FILE * pA){
+int i=0;
+FILE *temp;
+FILE *xyz;
+struct unidades prop;
+    xyz = fopen("baja.xyz","r+b");
+    if (xyz == NULL ) {xyz = fopen("baja.xyz","w+b");}
+    temp=fopen("stock.temp","w+b");
+    pA=fopen("propiedades.dat","rb");
+
+
+    fseek(pA,0,SEEK_END);
+    int cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
+
+    while ( i<cantprod ){
+        fseek(pA,i*sizeof(struct unidades),SEEK_SET);
+        fread(&prop,sizeof(struct unidades),1,pA);
+
+        if(prop.activo == 1){
+            fseek(temp,i*sizeof(struct unidades),SEEK_SET);
+            fwrite(&prop,sizeof(struct unidades),1,temp);
+        }else{ if (prop.activo == 0){
+            fseek(xyz,i*sizeof(struct unidades),SEEK_SET);
+            fwrite(&prop,sizeof(struct unidades ),1,xyz);
+        }
+        }
+     i++;
+    }
+
+
+    fclose(temp);
+    fclose(pA);
+    fclose(xyz);
+
+    remove("propiedades.dat");
+    rename("stock.temp","propiedades.dat");
+
+
+// Ahora eliminar y renombrar los archivos
+if (remove("propiedades.dat") == 0) {
+    printf("\nArchivo propiedades.dat eliminado correctamente.");
+} else {
+    perror("\nError al eliminar propiedades.dat\n");
+    // Manejar el error según sea necesario
+}
+
+if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
+    printf("\nArchivo renombrado correctamente.\n");
+} else {
+    perror("\nError al renombrar el archivo");
+    // Manejar el error según sea necesario
+}
+printf("\n***--Archivo actualizado--***\n");
+}
+
+
+
+
 //------------------------------------------------------------------------------------------------------------//
 void PRESENTACION(){
     FILE *f = fopen("banner.txt", "r");
@@ -1312,9 +1398,10 @@ SetConsoleTextAttribute(hConsole,2);
 SetConsoleTextAttribute(hConsole,7);
 system ("pause");
 }
+
 int main() {
     int MenuInicio =1;      // Establece el primer numero del menu
-    int MenuFin =7;	        // Establece último numero del menu
+    int MenuFin =8;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
     PRESENTACION();
@@ -1331,7 +1418,8 @@ int main() {
 	printf("\t4. Baja logica de una propiedad\n");
 	printf("\t5. Buscar propiedad\n");
 	printf("\t6. Mofificar una propiedad\n");
-	printf("\t7. Salir\n");
+	printf("\t7. Baja Fisica\n");
+	printf("\t8. Salir\n");
     fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
@@ -1372,7 +1460,9 @@ int main() {
                break;
         case 6:Modificarpropiedad(pArchivo);
                break;
-        case 7:return 0;
+        case 7:bajaFisica(pArchivo);
+               break;
+        case 8:return 0;
                break;
         }
     printf("\n");
