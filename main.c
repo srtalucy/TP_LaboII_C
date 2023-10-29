@@ -1279,12 +1279,28 @@ fclose(pA);
 }
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
-
+void PRESENTACION(){
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+ SetConsoleTextAttribute(hConsole,2);
+printf ("                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+ SetConsoleTextAttribute(hConsole,4);
+printf ("                |                     Integrantes del grupo TP LABO2                          |\n");
+printf ("                |                     Franco Macri                                            |\n");
+printf ("                |                     Ramos Florecia Ayelen                                   |\n");
+printf ("                |                     Elias Serantes                                          |\n");
+printf ("                |                     Jhonny Rafael Arvelo Cabrera                            |\n");
+printf ("                |                     Agustin Bardelli                                        |\n");
+printf ("                |                     Leon Caceres Christian Alexis Osvaldo                   |\n");
+SetConsoleTextAttribute(hConsole,2);
+printf ("                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+SetConsoleTextAttribute(hConsole,7);
+system ("pause");
 int main() {
     int MenuInicio =1;      // Establece el primer numero del menu
     int MenuFin =7;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
     FILE * pArchivo;        //creamos la variable archivo
+    PRESENTACION();
 
     do{
     system("cls"); //limpiamos pantalla
