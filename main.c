@@ -163,22 +163,20 @@ int leido,flag,temp;
             printf("Dia fuera de rango\n");    }
     }while(prop.dia>veodia || prop.dia < 0);
 
-    do{
-    printf("Ingrese el a%co: ",164);
-    scanf("%d",&prop.anio);
-    fflush(stdin);
-    if (prop.anio != anioactual){printf("\nA%co fuera de rango, ingrese nuevamente\n",164);}
-    }while(prop.anio != anioactual);
+    printf("El A%co que sera ingresado es: %d",164,anioactual);
+    prop.anio=anioactual;
 
     //Se pide el ingreso de datos para una nueva propiedad
 
     //-----------------------------Zona------------------------------------------------//
-    printf("Ingrese la Zona del articulo: \n");
+    printf("\n----------Zonas----------\n");
     printf("1- Capital Federal \n");
     printf("2- Bs.As. G.B.A. Zona Sur \n");
     printf("3- Bs.As. G.B.A. Zona Norte \n");
     printf("4- Bs.As. G.B.A. Zona Este \n");
     printf("5- Bs.As. G.B.A. Zona Oeste \n");
+    printf("--------------------------\n");
+    printf("Ingrese la Zona del articulo: ");
     scanf("%d",&leido);
     fflush(stdin);
     if (leido<=0 || leido>5 ){ //Validación de Zona
@@ -337,14 +335,17 @@ int leido,flag,temp;
     scanf("%f",&prop.precio);
     }
 //---------------------------------Tipo de moneda --------------------------//
-    printf("Ingrese el tipo de moneda del articulo: \n");
+    printf("- - - - - - - - - - \n");
+    printf("--Tipos de monedas--\n");
     printf("1- USD \n");
     printf("2- PESOS \n");
+    printf("--------------------\n");
+    printf("Ingrese el tipo de moneda del articulo: ");
     scanf("%d",&leido);
     fflush(stdin);
     if (leido<=0 || leido>2 ){ //Validación
         while (leido<=0 || leido>2 ){
-        printf("Ingreso un valor fuera del rango\n");
+        printf("Valor fuera del rango\n");
         printf("Ingrese el tipo de moneda del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
@@ -359,15 +360,18 @@ int leido,flag,temp;
         break;
     }
 //------------------------------------Tipo de propiedad ------------------------------------//
-    printf("Ingrese el tipo de la propiedad del articulo: \n");
+    printf("- - - - - - - - - - - - - \n");
+    printf("--Tipos de propiedades--\n");
     printf("1- Departamento \n");//Opciones
     printf("2- PH \n");
     printf("3- Casa \n");
+    printf("------------------------\n");
+    printf("Ingrese el tipo de la propiedad del articulo: ");
     scanf("%d",&leido);
     fflush(stdin);
     if (leido<=0 || leido>3 ){ //Validación
         while (leido<=0 || leido>3 ) {
-        printf("Ingreso un valor fuera del rango\n");
+        printf("Valor fuera del rango\n");
         printf("Ingrese el tipo de la propiedad del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
@@ -388,16 +392,19 @@ int leido,flag,temp;
 
 //-------------------------- Tipo de operacion----------------------------------//
     //Opciones
-    printf("Ingrese el tipo de Operacion del articulo: \n");
+    printf("- - - - - - - - - - - - - -\n");
+    printf("---Tipo de Operaciones---\n");
     printf("1- Venta \n");
     printf("2- Alquiler \n");
     printf("3- Alquiler Temporal\n");
+    printf("-------------------------\n");
+    printf("Ingrese el tipo de Operacion del articulo: ");
     scanf("%d",&leido);
     fflush(stdin);
     //Validación
     if (leido<=0 || leido>3 ){
         while (leido<=0 || leido>3 ) {
-        printf("Ingreso un valor fuera del rango\n");
+        printf("Valor fuera del rango\n");
         printf("Ingrese el tipo de Operacion del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
