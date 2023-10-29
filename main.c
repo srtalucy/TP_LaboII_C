@@ -1290,6 +1290,7 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 SetConsoleTextAttribute(hConsole,2);
 SetConsoleTextAttribute(hConsole,4);
 printf("+-----------------------------------------------------------------------------------------------------------------------------------------------+\n");
+printf(" Integrantes:\n");
 printf(" Franco Macri\n");
 printf(" Ramos Florecia Ayelen\n");
 printf(" Elias Serantes\n");
