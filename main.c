@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <string.h>
+#include <time.h>
 #define anioactual 2023
 
 void fechaHoy(int *dia, int *mes, int *anio) {
