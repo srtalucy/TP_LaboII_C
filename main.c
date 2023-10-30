@@ -1348,8 +1348,8 @@ void bajaFisica(FILE * pA){
 int i=0,dia,mes,anio;
 struct unidades prop;
 fechaHoy(&dia,&mes,&anio);
-char viejo[30];
-char nuevo[30]; // Suficientemente grande para "dd_mm_aaaa.xyz"
+char viejo[50];
+char nuevo[50]; // Suficientemente grande para "dd_mm_aaaa.xyz"
 sprintf(nuevo, "propiedades_baja_%d_%d_%d.xyz", dia, mes, anio); //Guardo la fecha en "nuevo" para el rename
 FILE *temp;
 FILE *xyz;
@@ -1410,16 +1410,10 @@ if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
     perror("\n\nError al renombrar el archivo .dat");
     // Manejar el error según sea necesario
 }
-	
-if (rename(viejo, nuevo) == 0) {
-        printf("Archivo xyz renombrado correctamente\n");
-    } else {
-        perror("Error al renombrar el archivo xyz");
-    }
-remove("stock.temp");
-printf("\n***--Archivo actualizado--***\n");
-}
 
+remove("stock.temp");
+printf("***--Archivo actualizado--***\n");
+}
 
 //------------------------------------------------------------------------------------------------------------//
 void PRESENTACION(){
