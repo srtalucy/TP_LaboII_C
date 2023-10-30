@@ -1361,6 +1361,11 @@ struct unidades prop;
     fclose(pA);
     fclose(xyz);
 
+    printf("\n---->   Cargando informacion, aguarde un momento");
+    for (int x=0; x<3; x++ ){
+        sleep(2);
+        printf(".");
+    }
 // Ahora eliminar y renombrar los archivos
 if (remove("propiedades.dat") == 0) {
     printf("\nArchivo propiedades.dat eliminado correctamente.");
