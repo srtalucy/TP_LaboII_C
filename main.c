@@ -4,6 +4,18 @@
 #include <string.h>
 #define anioactual 2023
 
+void fechaHoy(int *dia, int *mes, int *anio) {
+    time_t tiempo;
+    struct tm *tiempoInfo;
+
+    time(&tiempo);
+    tiempoInfo = localtime(&tiempo);
+
+    *dia = tiempoInfo->tm_mday;
+    *mes = tiempoInfo->tm_mon + 1;
+    *anio = tiempoInfo->tm_year + 1900;
+}
+
 void limpiarTeclado(){
     while (GetAsyncKeyState(VK_RETURN) & 0x8000) {
     // Descartar pulsaciones de tecla de Enter
@@ -1332,13 +1344,31 @@ fclose(pA);
 }
 //------------------------------------------------------------------------------------------------------------//
 void bajaFisica(FILE * pA){
-int i=0;
+int i=0,dia,mes,anio;
+struct unidades prop;
+fechaHoy(&dia,&mes,&anio);
+char viejo[30];
+char nuevo[30]; // Suficientemente grande para "dd_mm_aaaa.xyz"
+sprintf(nuevo, "propiedades_baja_%d_%d_%d.xyz", dia, mes, anio); //Guardo la fecha en "nuevo" para el rename
 FILE *temp;
 FILE *xyz;
-struct unidades prop;
+FILE *archivoFechaAnterior;
+
+        archivoFechaAnterior = fopen("fecha.txt", "r");
+    if (archivoFechaAnterior != NULL) {
+        fgets(viejo, sizeof(viejo), archivoFechaAnterior);
+        fclose(archivoFechaAnterior);
+    } else {
+        archivoFechaAnterior = fopen("fecha.txt","w");
+        fprintf(archivoFechaAnterior, "%s", nuevo);
+        fclose(archivoFechaAnterior);
+        strcpy(viejo, nuevo);
+    }
     pA=fopen("propiedades.dat","rb");
-    xyz = fopen("baja.xyz","r+b");
-    if (xyz == NULL ) {xyz = fopen("baja.xyz","w+b");}
+    xyz = fopen(viejo,"r+b");
+    if (xyz == NULL ) {
+        xyz = fopen(viejo,"w+b");
+    }
     temp=fopen("stock.temp","w+b");
     fseek(pA,0,SEEK_END);
     int cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
@@ -1346,7 +1376,6 @@ struct unidades prop;
     while ( i<cantprod ){
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
-
         if(prop.activo == 1){
             fseek(temp,i*sizeof(struct unidades),SEEK_SET);
             fwrite(&prop,sizeof(struct unidades),1,temp);
@@ -1360,7 +1389,7 @@ struct unidades prop;
     fclose(temp);
     fclose(pA);
     fclose(xyz);
-
+    //Le damos un momento al sistema para que cierre bien los archivos antes de hacer un rename/remove
     printf("\n---->   Cargando informacion, aguarde un momento");
     for (int x=0; x<3; x++ ){
         sleep(2);
@@ -1368,19 +1397,24 @@ struct unidades prop;
     }
 // Ahora eliminar y renombrar los archivos
 if (remove("propiedades.dat") == 0) {
-    printf("\nArchivo propiedades.dat eliminado correctamente.");
+    printf("\n\nArchivo propiedades.dat eliminado correctamente.");
 } else {
-    perror("\nError al eliminar propiedades.dat\n");
+    perror("\n\nError al eliminar propiedades.dat\n");
     // Manejar el error según sea necesario
 }
 
 if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
-    printf("\nArchivo renombrado correctamente.\n");
+    printf("\n\nArchivo .dat renombrado correctamente.\n\n");
 } else {
-    perror("\nError al renombrar el archivo");
+    perror("\n\nError al renombrar el archivo .dat");
     // Manejar el error según sea necesario
 }
-
+	
+if (rename(viejo, nuevo) == 0) {
+        printf("Archivo xyz renombrado correctamente\n");
+    } else {
+        perror("Error al renombrar el archivo xyz");
+    }
 remove("stock.temp");
 printf("\n***--Archivo actualizado--***\n");
 }
