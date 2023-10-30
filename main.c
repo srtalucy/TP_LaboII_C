@@ -491,11 +491,12 @@ fclose(pA);
 
 void Lista(FILE *pA){
 struct unidades prop;
-int i=0, cantprod;
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);   //////////////////////////comando color
+ int i=0, cantprod;
 pA=fopen("propiedades.dat","rb");
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-
+SetConsoleTextAttribute(hConsole,9);                /////////////////////////color
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -1440,6 +1441,7 @@ system ("pause");
 }
 
 int main() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);    //comando cambia el color
     int MenuInicio =1;      // Establece el primer numero del menu
     int MenuFin =8;	        // Establece último numero del menu
     int LineaDeInicio = 2;  // Establece la linea donde empieza el menu
@@ -1452,6 +1454,7 @@ int main() {
 	printf("Seleccione una opcion moviendose con las flechas direccionales del teclado y presione enter para continuar");
 	// ir a la linea de inicio, DEBE ir antes del menu seleccionable
 	goy(LineaDeInicio);
+	SetConsoleTextAttribute(hConsole,6);         //color
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
@@ -1484,7 +1487,9 @@ int main() {
 			goy(LineaDeInicio + Menu-1);
 			printf("---->");
 		} else if (GetAsyncKeyState(VK_RETURN)) {break;}
+		SetConsoleTextAttribute(hConsole,3);          //color
 	}
+        SetConsoleTextAttribute(hConsole,7);                  //color
 	// Me muevo hacia un espacio donde pueda imprimir los demas datos de la opcion seleccionada
 	goy(10);
 	switch (Menu) {
