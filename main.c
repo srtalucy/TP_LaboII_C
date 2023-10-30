@@ -496,16 +496,17 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);   //////////////////////////c
 pA=fopen("propiedades.dat","rb");
     fseek(pA,0,SEEK_END);
     cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
-SetConsoleTextAttribute(hConsole,9);                /////////////////////////color
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("|ID |ingreso   |Zona            |Ciudad          |Dormitorios|Ba%cos|total |cubierta|Precio   |Moneda|Tipo        |Operacion        |salida    |Activo\n",164);
     fseek(pA,0,SEEK_SET);
     while( i < cantprod ){
+	SetConsoleTextAttribute(hConsole,7);                /////////////////////////color
         fseek(pA,i*sizeof(struct unidades),SEEK_SET);
         fread(&prop,sizeof(struct unidades),1,pA);
         if (prop.id == 0){
+	SetConsoleTextAttribute(hConsole,8);
     printf("|0  |0         |0               |0               |0          |0    |0     |0       |0        |0     |0           |0                |0         |      ");
         }else{
         printf("|%-3d|",prop.id);
