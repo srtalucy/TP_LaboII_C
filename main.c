@@ -1336,12 +1336,10 @@ int i=0;
 FILE *temp;
 FILE *xyz;
 struct unidades prop;
+    pA=fopen("propiedades.dat","rb");
     xyz = fopen("baja.xyz","r+b");
     if (xyz == NULL ) {xyz = fopen("baja.xyz","w+b");}
     temp=fopen("stock.temp","w+b");
-    pA=fopen("propiedades.dat","rb");
-
-
     fseek(pA,0,SEEK_END);
     int cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
 
@@ -1359,15 +1357,9 @@ struct unidades prop;
         }
      i++;
     }
-
-
     fclose(temp);
     fclose(pA);
     fclose(xyz);
-
-    remove("propiedades.dat");
-    rename("stock.temp","propiedades.dat");
-
 
 // Ahora eliminar y renombrar los archivos
 if (remove("propiedades.dat") == 0) {
@@ -1383,10 +1375,10 @@ if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
     perror("\nError al renombrar el archivo");
     // Manejar el error según sea necesario
 }
+
+remove("stock.temp");
 printf("\n***--Archivo actualizado--***\n");
 }
-
-
 
 
 //------------------------------------------------------------------------------------------------------------//
