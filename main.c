@@ -1378,7 +1378,7 @@ if(validacion==1){
         }
 }
 SetConsoleTextAttribute(hConsole,2); //verde
-printf("\n***--El producto %d se modifico correctamente--***\n");}
+printf("\n***--El producto %d se modifico correctamente--***\n");
 SetConsoleTextAttribute(hConsole,7); //base
 printf("\n\n");
 fclose(pA);
@@ -1461,7 +1461,9 @@ if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
 }
 
 remove("stock.temp");
+SetConsoleTextAttribute(hConsole,2); //verde
 printf("***--Archivo actualizado--***\n");
+SetConsoleTextAttribute(hConsole,7); //base
 }
 
 //------------------------------------------------------------------------------------------------------------//
