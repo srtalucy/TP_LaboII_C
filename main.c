@@ -1175,6 +1175,7 @@ void menulistas(FILE *pA,int MenuInicio,int MenuFin,int LineaDeInicio){
 
 // 4- baja logica de una propiedad
 void bajaLogica(FILE * pA){
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 struct unidades prod;
 int art;//=leerArt();
 char opcion;
@@ -1193,7 +1194,9 @@ pA=fopen("propiedades.dat","r+b");
     fseek(pA,(art-1)*sizeof(struct unidades ),SEEK_SET);
     fread(&prod,sizeof(struct unidades ),1,pA);
     if( prod.activo == 0){
+     SetConsoleTextAttribute(hConsole,4); //rojo      
      printf("La propiedad ya estaba dada de baja \n");
+     SetConsoleTextAttribute(hConsole,7); //verde
      fclose(pA);
      return;
     }
@@ -1222,8 +1225,10 @@ pA=fopen("propiedades.dat","r+b");
     prod.activo = 0;
     fseek(pA,-sizeof(struct unidades),SEEK_CUR);
     fwrite(&prod,sizeof(struct unidades),1,pA);
+SetConsoleTextAttribute(hConsole,2); //verde
 printf("\n***--El producto %d se dio de baja correctamente--***\n", art);}
-printf("\n\n\n");
+SetConsoleTextAttribute(hConsole,7); //base
+printf("\n\n");
 printf("Asi quedo la lista actualizada \n");
 struct unidades prop;
 int i=0, cantprod;
@@ -1255,6 +1260,7 @@ fclose(pA);
 
 // 6- Modificar una propiedad
 void Modificarpropiedad(FILE * pA){
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 struct unidades prop;
 int id,opcion,numero,validacion;
 pA=fopen("propiedades.dat","r+b");
@@ -1315,8 +1321,8 @@ if(validacion==1){
     prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
     }
     while(prop.ciudad==NULL || longitud > 17 || longitud <= 1){ //Validación
-    printf("Valor invalido\n");
-    printf("Introduce La nueva ciudad: ");
+    error(0);
+    printf("\nIntroduce La nueva ciudad: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     longitud = strlen(prop.ciudad);
@@ -1325,8 +1331,8 @@ if(validacion==1){
     }
     }
     while (isalpha(prop.ciudad[0]==0)){ //Para verificar que se haya ingresado una letra por lo menos
-    printf("Valor invalido\n");
-    printf("Introduce La nueva ciudad: ");
+    error(1);
+    printf("\nIntroduce La nueva ciudad: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     }
@@ -1360,8 +1366,8 @@ if(validacion==1){
         }
     }
     while(prop.precio<=0 || prop.precio>=1000000){ //Validación
-    printf("Valor invalido\n");
-    printf("Introduce el nuevo Precio:");
+    error(0);
+    printf("\nIntroduce el nuevo Precio:");
     scanf("%f",&prop.precio);
     }
     fseek(pA,0,SEEK_SET);
@@ -1371,11 +1377,15 @@ if(validacion==1){
         break;
         }
 }
+SetConsoleTextAttribute(hConsole,2); //verde
+printf("\n***--El producto %d se modifico correctamente--***\n");}
+SetConsoleTextAttribute(hConsole,7); //base
 printf("\n\n");
 fclose(pA);
 }
 //------------------------------------------------------------------------------------------------------------//
 void bajaFisica(FILE * pA){
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 int i=0,dia,mes,anio;
 struct unidades prop;
 fechaHoy(&dia,&mes,&anio);
@@ -1555,6 +1565,4 @@ int main() {
 	}while(1);
 
 //Fin de main
-
 }
-
