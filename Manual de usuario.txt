@@ -18,8 +18,15 @@ del teclado y presionando enter para continuar.
 IMPORTANTE:  No presionas teclas aparte de las ya mencionadas antes de presionar enter
 -----------  para no generar problemas a la hora de imprimir caracteres en pantalla.
 
-
-
+Control de errores:
+-------------------
+Error numero 0: Valor ingresado fuera de rango
+Error numero 1: Tipo de dato ingresado incorrecto
+Error numero 2: El archivo no existe
+Error numero 3: El archivo ya existe 
+Error: El dato ingresado ya existe
+Error: El dato ingresado no existe
+Error: String ingresado fuera de rango
 
 Funciones que no cumple el programa:
 ------------------------------------
