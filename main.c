@@ -5,6 +5,23 @@
 #include <time.h>
 #define anioactual 2023
 
+void error(int num_err)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	char *errores[] = {
+/* 0 */	"Error 0: Valor ingresado fuera de rango",
+/* 1 */ "Error 1: Tipo de dato ingresado incorrecto",
+/* 2 */ "Error 2: El archivo no existe",
+/* 3 */ "Error 3: El archivo ya existe",
+/* 4 */ "Error 4: El dato ingresado ya existe",
+/* 5 */ "Error 5: El dato ingresado no existe",
+/* 6 */ "Error 6: String fuera de rango"
+		};
+    SetConsoleTextAttribute(hConsole,12); //rojo
+	printf( "%s",errores[num_err] );
+    SetConsoleTextAttribute(hConsole,7);//base
+    sleep(1);
+}
 void fechaHoy(int *dia, int *mes, int *anio) {
     time_t tiempo;
     struct tm *tiempoInfo;
@@ -60,16 +77,19 @@ void goy(int y) {
 // 1-Creamos un if que si el archivo existe, no lo crea nuevamente borrando lo ya hecho
 // Y si no existe, lo crea.
 void crearStock(FILE * pA){
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     fflush(stdin);
     pA = fopen("propiedades.dat", "r");
      if (pA == NULL) {
         // El archivo no existe, así que lo creamos
         pA = fopen("propiedades.dat", "w");
+        SetConsoleTextAttribute(hConsole,2); //verde
         printf("\nArchivo creado exitosamente\n");
+        SetConsoleTextAttribute(hConsole,7);//base
         } else{
         // El archivo existe, lo cerramos
         fclose(pA);
-        printf("El archivo propiedades.dat ya existe\n");
+        error(3);
         fflush(stdin);
         }
 }
@@ -84,7 +104,6 @@ int corroborar(int hoy){
 
 //------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------//
-
 // 2-Ingresar una propiedad nueva
 void productoNuevo(FILE * pA){
 struct unidades prop;
@@ -93,7 +112,7 @@ int leido,flag,temp;
     pA=fopen("propiedades.dat","r+b");
     if (pA == NULL) {
         // El archivo no existe, salimos
-        printf("El archivo propiedades no existe\n");
+        error(2);
         return 0;
         }
         //Con esto sé el numero maximo del dat hasta este momento
@@ -105,7 +124,7 @@ int leido,flag,temp;
 
     do{
     flag=1; //setteamos el flag para que si no se cumple ninguna valid. vuelva a ingresar
-    printf("Ingrese el ID del articulo: ");
+    printf("\nIngrese el ID del articulo: ");
     leido = scanf("%d",&temp);
     fflush(stdin);
     if (leido == 1){
@@ -114,15 +133,15 @@ int leido,flag,temp;
     else{
         while(leido != 1)
 	    {
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese el ID del articulo: ");
+            error(1);
+            printf("\nIngrese el ID del articulo: ");
             leido = scanf("%d",&temp);
             fflush(stdin);
             }
     	}
     if (temp<0 || temp >= 1000){
             flag=1;
-            printf("Numero fuera de rango\n");
+            error(0);
     }else{
             if (temp > numRegistros){
                 flag=0;
@@ -130,7 +149,7 @@ int leido,flag,temp;
                 fseek(pA,(temp-1)*sizeof(struct unidades),SEEK_SET);
                 fread(&prop,sizeof(struct unidades),1,pA);
                 flag = (prop.id==0 ? 0 : (flag = (prop.activo==0 ? 0 : 1)));
-		if (flag==1){printf("El ID que intenta ingresar ya existe\n");};
+		if (flag==1){error(4);};
                      }
          }
     }while(flag==1);
@@ -145,14 +164,18 @@ int leido,flag,temp;
     //Se valida que mes, dia y año sean valores numéricos y no esten fuera de rango
     else{
         while(leido != 1){
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese el mes: ");
+            error(1);
+            printf("\nIngrese el mes: ");
             leido = scanf("%d",&prop.mes);
             fflush(stdin);
         }
     }
 
-    if(prop.mes <= 0 || prop.mes > 12){printf("Fuera de rango, ingrese nuevamente\n");}
+    if(prop.mes <= 0 || prop.mes > 12){
+        error(0);
+        printf("\n");
+        ;}
+
     }while(prop.mes <= 0 || prop.mes > 12);
 
     int veodia = corroborar(prop.mes); //devuelvo a veodia el numero de mes para comparar en el siguiente
@@ -165,15 +188,17 @@ int leido,flag,temp;
     }
     else{
         while(leido != 1){
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese el dia: ");
+            error(1);
+            printf("\nIngrese el dia: ");
             leido = scanf("%d",&prop.dia);
             fflush(stdin);
         }
     }
 
     if (prop.dia<0 || prop.dia>veodia) {
-            printf("Dia fuera de rango\n");    }
+            error(0);
+            printf("\n");
+            }
     }while(prop.dia>veodia || prop.dia < 0);
 
     printf("El A%co que sera ingresado es: %d",164,anioactual);
@@ -194,8 +219,8 @@ int leido,flag,temp;
     fflush(stdin);
     if (leido<=0 || leido>5 ){ //Validación de Zona
         while (leido<=0 || leido>5 ){
-        printf("Ingreso un valor fuera del rango\n");
-        printf("Ingrese la Zona del articulo: \n");
+        error(0);
+        printf("\nIngrese la Zona del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
         }
@@ -228,8 +253,8 @@ int leido,flag,temp;
     prop.ciudad[longitud - 1] = '\0'; // Reemplaza el \n con el carácter nulo \0
     }
     while(prop.ciudad==NULL || longitud > 17 || longitud <= 1){ //Validación
-    printf("Valor invalido\n");
-    printf("Ingrese la Ciudad del articulo: ");
+    error(6);
+    printf("\nIngrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     longitud = strlen(prop.ciudad);
@@ -238,8 +263,8 @@ int leido,flag,temp;
     }
     }
     while (isalpha(prop.ciudad[0]==0)){ //Para verificar que se haya ingresado una letra por lo menos
-    printf("Valor invalido\n");
-    printf("Ingrese la Ciudad del articulo: ");
+    error(1);
+    printf("\nIngrese la Ciudad del articulo: ");
     fgets(prop.ciudad, sizeof(prop.ciudad), stdin);
     fflush(stdin);
     }
@@ -260,15 +285,15 @@ int leido,flag,temp;
     }
     else{
         while(leido != 1){ //Validación
-            printf("Por favor ingrese un valor numerico \n");
-             printf("Ingrese la cantidad de Dormitorios del articulo: ");
+            error(1);
+             printf("\nIngrese la cantidad de Dormitorios del articulo: ");
             leido = scanf("%d",&prop.dormitorios);
             fflush(stdin);
         }
     }
     while(prop.dormitorios<0 || prop.dormitorios > 999){ //Validación
-    printf("Valor invalido\n");
-    printf("Ingrese la cantidad de Dormitorios del articulo: ");
+    error(0);
+    printf("\nIngrese la cantidad de Dormitorios del articulo: ");
     scanf("%d",&prop.dormitorios);
     }
 //---------------------------Cantidad de baños-------------------------//
@@ -279,15 +304,15 @@ int leido,flag,temp;
     }
     else{
         while(leido != 1){ //Validación
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese la cantidad de ba%cos del articulo: ",164);
+            error(1);
+            printf("\nIngrese la cantidad de ba%cos del articulo: ",164);
             leido = scanf("%d",&prop.banios);
             fflush(stdin);
         }
     }
-    while(prop.banios<0){ //Validación
-    printf("Valor invalido\n");
-    printf("Ingrese la cantidad de ba%cos del articulo: ",164);
+    while(prop.banios<0 || prop.banios > 999){ //Validación
+    error(0);
+    printf("\nIngrese la cantidad de ba%cos del articulo: ",164);
     scanf("%d",&prop.banios);
     }
 //----------------------Superficie total-----------------------------------------------//
@@ -298,14 +323,14 @@ int leido,flag,temp;
     }
     else{
         while(leido != 1){ //Validación
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese la superficie total del articulo: ");
+            error(1);
+            printf("\nIngrese la superficie total del articulo: ");
             leido = scanf("%d",&prop.superficieT);
             fflush(stdin);
         }
     } //Validación
-    while(prop.superficieT<=0){
-    printf("Valor invalido\n");
+    while(prop.superficieT<=0 || prop.superficieT > 999999){
+    error(0);
     printf("Ingrese la superficie total del articulo: ");
     scanf("%f",&prop.superficieT);
     }
@@ -317,15 +342,15 @@ int leido,flag,temp;
     }
     else{ //Validación
         while(leido != 1){
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese la superficie cubierta del articulo: ");
+            error(1);
+            printf("\nIngrese la superficie cubierta del articulo: ");
             leido = scanf("%d",&prop.superficieC);
             fflush(stdin);
         }
     }
-    while(prop.superficieC<=0){ //Validación
-    printf("Valor invalido\n");
-    printf("Ingrese la superficie cubierta del articulo: ");
+    while(prop.superficieC<=0 || prop.superficieC > 999999){ //Validación
+    error(1);
+    printf("\nIngrese la superficie cubierta del articulo: ");
     scanf("%f",&prop.superficieC);
     }
 //--------------------------Precio-------------------------------------------//
@@ -336,15 +361,15 @@ int leido,flag,temp;
     }
     else{ //Validación
         while(leido != 1){
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Ingrese el precios del articulo: ");
+            error(1);
+            printf("\nIngrese el precios del articulo: ");
             leido = scanf("%d",&prop.precio);
             fflush(stdin);
         }
     }
     while(prop.precio<=0 || prop.precio>=1000000){ //Validación
-    printf("Valor invalido\n");
-    printf("Ingrese el precio del articulo: ");
+    error(0);
+    printf("\nIngrese el precio del articulo: ");
     scanf("%f",&prop.precio);
     }
 //---------------------------------Tipo de moneda --------------------------//
@@ -358,8 +383,8 @@ int leido,flag,temp;
     fflush(stdin);
     if (leido<=0 || leido>2 ){ //Validación
         while (leido<=0 || leido>2 ){
-        printf("Valor fuera del rango\n");
-        printf("Ingrese el tipo de moneda del articulo: ");
+        error(0);
+        printf("\nIngrese el tipo de moneda del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
         }
@@ -384,8 +409,8 @@ int leido,flag,temp;
     fflush(stdin);
     if (leido<=0 || leido>3 ){ //Validación
         while (leido<=0 || leido>3 ) {
-        printf("Valor fuera del rango\n");
-        printf("Ingrese el tipo de la propiedad del articulo: ");
+        error(0);
+        printf("\nIngrese el tipo de la propiedad del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
         }
@@ -417,8 +442,8 @@ int leido,flag,temp;
     //Validación
     if (leido<=0 || leido>3 ){
         while (leido<=0 || leido>3 ) {
-        printf("Valor fuera del rango\n");
-        printf("Ingrese el tipo de Operacion del articulo: ");
+        error(0);
+        printf("\nIngrese el tipo de Operacion del articulo: ");
         scanf("%d",&leido);
         fflush(stdin);
         }
@@ -455,6 +480,10 @@ int leido,flag,temp;
 void listaBaja(){
         FILE *pA;
     pA=fopen("baja.xyz","rb");
+    if(pA == NULL){
+        printf("\n\nEl archivo no existe\n");
+        return;
+    }
     struct unidades prop;
     fseek(pA,0,SEEK_END);
     int cantprod=ftell(pA)/sizeof(struct unidades);// calculo la cantidad de productos registrados para el ciclo
@@ -1324,8 +1353,8 @@ if(validacion==1){
     }
     else{ //Validación
         while(numero != 1){
-            printf("Por favor ingrese un valor numerico \n");
-            printf("Introduce el nuevo Precio: ");
+            error(1);
+            printf("\nIntroduce el nuevo Precio: ");
             numero = scanf("%d",&prop.precio);
             fflush(stdin);
         }
@@ -1455,7 +1484,6 @@ int main() {
 	printf("Seleccione una opcion moviendose con las flechas direccionales del teclado y presione enter para continuar");
 	// ir a la linea de inicio, DEBE ir antes del menu seleccionable
 	goy(LineaDeInicio);
-	SetConsoleTextAttribute(hConsole,6);         //color
 	printf("\t1. Crear el archivo propiedades.dat\n");
 	printf("\t2. Ingresar un nuevo inmueble\n");
 	printf("\t3. Cargar/Mostrar Lista de propiedades\n");
@@ -1467,6 +1495,7 @@ int main() {
     fflush(stdin);
 	Menu = 1;
 	goy(LineaDeInicio);
+	SetConsoleTextAttribute(hConsole,6);
 	printf("---->");
 
 	while(1) {
@@ -1488,7 +1517,7 @@ int main() {
 			goy(LineaDeInicio + Menu-1);
 			printf("---->");
 		} else if (GetAsyncKeyState(VK_RETURN)) {break;}
-		SetConsoleTextAttribute(hConsole,3);          //color
+
 	}
         SetConsoleTextAttribute(hConsole,7);                  //color
 	// Me muevo hacia un espacio donde pueda imprimir los demas datos de la opcion seleccionada
@@ -1520,3 +1549,4 @@ int main() {
 //Fin de main
 
 }
+
