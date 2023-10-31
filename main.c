@@ -1429,16 +1429,24 @@ FILE *archivoFechaAnterior;
     }
 // Ahora eliminar y renombrar los archivos
 if (remove("propiedades.dat") == 0) {
+    SetConsoleTextAttribute(hConsole,2); //verde
     printf("\n\nArchivo propiedades.dat eliminado correctamente.");
+    SetConsoleTextAttribute(hConsole,7); //base
 } else {
+    SetConsoleTextAttribute(hConsole,4); //rojo
     perror("\n\nError al eliminar propiedades.dat\n");
+    SetConsoleTextAttribute(hConsole,7); //base
     // Manejar el error según sea necesario
 }
 
 if (rename("stock.temp", "propiedades.dat") == 0) { //veo si me lo renombro
+    SetConsoleTextAttribute(hConsole,2); //verde
     printf("\n\nArchivo .dat renombrado correctamente.\n\n");
+    SetConsoleTextAttribute(hConsole,7); //base
 } else {
+    SetConsoleTextAttribute(hConsole,4); //rojo
     perror("\n\nError al renombrar el archivo .dat");
+    SetConsoleTextAttribute(hConsole,7); //base
     // Manejar el error según sea necesario
 }
 
